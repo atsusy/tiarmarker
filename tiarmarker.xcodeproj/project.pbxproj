@@ -1,0 +1,422 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		24416B8111C4CA220047AFDD /* Build & Test */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 24416B8A11C4CA520047AFDD /* Build configuration list for PBXAggregateTarget "Build & Test" */;
+			buildPhases = (
+				24416B8011C4CA220047AFDD /* ShellScript */,
+			);
+			dependencies = (
+				24416B8511C4CA280047AFDD /* PBXTargetDependency */,
+			);
+			name = "Build & Test";
+			productName = "Build & test";
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		24DD6CF91134B3F500162E58 /* JpCoLangriseArmarkertiModule.h in Headers */ = {isa = PBXBuildFile; fileRef = 24DD6CF71134B3F500162E58 /* JpCoLangriseArmarkertiModule.h */; };
+		24DD6CFA1134B3F500162E58 /* JpCoLangriseArmarkertiModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 24DD6CF81134B3F500162E58 /* JpCoLangriseArmarkertiModule.m */; };
+		24DE9E1111C5FE74003F90F6 /* JpCoLangriseArmarkertiModuleAssets.h in Headers */ = {isa = PBXBuildFile; fileRef = 24DE9E0F11C5FE74003F90F6 /* JpCoLangriseArmarkertiModuleAssets.h */; };
+		24DE9E1211C5FE74003F90F6 /* JpCoLangriseArmarkertiModuleAssets.m in Sources */ = {isa = PBXBuildFile; fileRef = 24DE9E1011C5FE74003F90F6 /* JpCoLangriseArmarkertiModuleAssets.m */; };
+		31A282C71315EA5900963B0F /* libopencv_calib3d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 31A282C61315EA5900963B0F /* libopencv_calib3d.a */; };
+		31A282C91315EA5900963B0F /* libopencv_core.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 31A282C81315EA5900963B0F /* libopencv_core.a */; };
+		31A282CB1315EA5900963B0F /* libopencv_imgproc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 31A282CA1315EA5900963B0F /* libopencv_imgproc.a */; };
+		31A283081315FA0400963B0F /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31A283071315FA0400963B0F /* Accelerate.framework */; };
+		31A2830A1315FA0400963B0F /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31A283091315FA0400963B0F /* AVFoundation.framework */; };
+		31A2830C1315FA0400963B0F /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31A2830B1315FA0400963B0F /* CoreMedia.framework */; };
+		31A2830E1315FA0400963B0F /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31A2830D1315FA0400963B0F /* CoreVideo.framework */; };
+		31A283101315FA0400963B0F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31A2830F1315FA0400963B0F /* QuartzCore.framework */; };
+		31F7991E1315E78C007B9D7D /* JpCoLangriseArmarkertiCameraView.h in Headers */ = {isa = PBXBuildFile; fileRef = 31F799181315E78C007B9D7D /* JpCoLangriseArmarkertiCameraView.h */; };
+		31F7991F1315E78C007B9D7D /* JpCoLangriseArmarkertiCameraView.m in Sources */ = {isa = PBXBuildFile; fileRef = 31F799191315E78C007B9D7D /* JpCoLangriseArmarkertiCameraView.m */; };
+		31F799201315E78C007B9D7D /* JpCoLangriseArmarkertiCameraViewProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 31F7991A1315E78C007B9D7D /* JpCoLangriseArmarkertiCameraViewProxy.h */; };
+		31F799211315E78C007B9D7D /* JpCoLangriseArmarkertiCameraViewProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 31F7991B1315E78C007B9D7D /* JpCoLangriseArmarkertiCameraViewProxy.m */; };
+		31F799221315E78C007B9D7D /* JpCoLangriseArmarkertiDetector.h in Headers */ = {isa = PBXBuildFile; fileRef = 31F7991C1315E78C007B9D7D /* JpCoLangriseArmarkertiDetector.h */; };
+		31F799231315E78C007B9D7D /* JpCoLagnriseArmarkertiDetector.m in Sources */ = {isa = PBXBuildFile; fileRef = 31F7991D1315E78C007B9D7D /* JpCoLagnriseArmarkertiDetector.m */; };
+		AA747D9F0F9514B9006C5449 /* JpCoLangriseArmarkerti_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AA747D9E0F9514B9006C5449 /* JpCoLangriseArmarkerti_Prefix.pch */; };
+		AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		24416B8411C4CA280047AFDD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D2AAC07D0554694100DB518D;
+			remoteInfo = tiarmarker;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		24DD6CF71134B3F500162E58 /* JpCoLangriseArmarkertiModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JpCoLangriseArmarkertiModule.h; path = Classes/JpCoLangriseArmarkertiModule.h; sourceTree = "<group>"; };
+		24DD6CF81134B3F500162E58 /* JpCoLangriseArmarkertiModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JpCoLangriseArmarkertiModule.m; path = Classes/JpCoLangriseArmarkertiModule.m; sourceTree = "<group>"; };
+		24DD6D1B1134B66800162E58 /* titanium.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = titanium.xcconfig; sourceTree = "<group>"; };
+		24DE9E0F11C5FE74003F90F6 /* JpCoLangriseArmarkertiModuleAssets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JpCoLangriseArmarkertiModuleAssets.h; path = Classes/JpCoLangriseArmarkertiModuleAssets.h; sourceTree = "<group>"; };
+		24DE9E1011C5FE74003F90F6 /* JpCoLangriseArmarkertiModuleAssets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JpCoLangriseArmarkertiModuleAssets.m; path = Classes/JpCoLangriseArmarkertiModuleAssets.m; sourceTree = "<group>"; };
+		31A282C61315EA5900963B0F /* libopencv_calib3d.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_calib3d.a; path = opencv_universal/lib/libopencv_calib3d.a; sourceTree = "<group>"; };
+		31A282C81315EA5900963B0F /* libopencv_core.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_core.a; path = opencv_universal/lib/libopencv_core.a; sourceTree = "<group>"; };
+		31A282CA1315EA5900963B0F /* libopencv_imgproc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_imgproc.a; path = opencv_universal/lib/libopencv_imgproc.a; sourceTree = "<group>"; };
+		31A283071315FA0400963B0F /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		31A283091315FA0400963B0F /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		31A2830B1315FA0400963B0F /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		31A2830D1315FA0400963B0F /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		31A2830F1315FA0400963B0F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		31F799181315E78C007B9D7D /* JpCoLangriseArmarkertiCameraView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JpCoLangriseArmarkertiCameraView.h; path = Classes/JpCoLangriseArmarkertiCameraView.h; sourceTree = "<group>"; };
+		31F799191315E78C007B9D7D /* JpCoLangriseArmarkertiCameraView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JpCoLangriseArmarkertiCameraView.m; path = Classes/JpCoLangriseArmarkertiCameraView.m; sourceTree = "<group>"; };
+		31F7991A1315E78C007B9D7D /* JpCoLangriseArmarkertiCameraViewProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JpCoLangriseArmarkertiCameraViewProxy.h; path = Classes/JpCoLangriseArmarkertiCameraViewProxy.h; sourceTree = "<group>"; };
+		31F7991B1315E78C007B9D7D /* JpCoLangriseArmarkertiCameraViewProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JpCoLangriseArmarkertiCameraViewProxy.m; path = Classes/JpCoLangriseArmarkertiCameraViewProxy.m; sourceTree = "<group>"; };
+		31F7991C1315E78C007B9D7D /* JpCoLangriseArmarkertiDetector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JpCoLangriseArmarkertiDetector.h; path = Classes/JpCoLangriseArmarkertiDetector.h; sourceTree = "<group>"; };
+		31F7991D1315E78C007B9D7D /* JpCoLagnriseArmarkertiDetector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JpCoLagnriseArmarkertiDetector.m; path = Classes/JpCoLagnriseArmarkertiDetector.m; sourceTree = "<group>"; };
+		AA747D9E0F9514B9006C5449 /* JpCoLangriseArmarkerti_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JpCoLangriseArmarkerti_Prefix.pch; sourceTree = SOURCE_ROOT; };
+		AACBBE490F95108600F1A2B1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		D2AAC07E0554694100DB518D /* libJpCoLangriseArmarkerti.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libJpCoLangriseArmarkerti.a; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D2AAC07C0554694100DB518D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */,
+				31A282C71315EA5900963B0F /* libopencv_calib3d.a in Frameworks */,
+				31A282C91315EA5900963B0F /* libopencv_core.a in Frameworks */,
+				31A282CB1315EA5900963B0F /* libopencv_imgproc.a in Frameworks */,
+				31A283081315FA0400963B0F /* Accelerate.framework in Frameworks */,
+				31A2830A1315FA0400963B0F /* AVFoundation.framework in Frameworks */,
+				31A2830C1315FA0400963B0F /* CoreMedia.framework in Frameworks */,
+				31A2830E1315FA0400963B0F /* CoreVideo.framework in Frameworks */,
+				31A283101315FA0400963B0F /* QuartzCore.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		034768DFFF38A50411DB9C8B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D2AAC07E0554694100DB518D /* libJpCoLangriseArmarkerti.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0867D691FE84028FC02AAC07 /* tiarmarker */ = {
+			isa = PBXGroup;
+			children = (
+				08FB77AEFE84172EC02AAC07 /* Classes */,
+				31F7992C1315E7F4007B9D7D /* OpenCV */,
+				32C88DFF0371C24200C91783 /* Other Sources */,
+				0867D69AFE84028FC02AAC07 /* Frameworks */,
+				034768DFFF38A50411DB9C8B /* Products */,
+			);
+			name = tiarmarker;
+			sourceTree = "<group>";
+		};
+		0867D69AFE84028FC02AAC07 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AACBBE490F95108600F1A2B1 /* Foundation.framework */,
+				31A283071315FA0400963B0F /* Accelerate.framework */,
+				31A283091315FA0400963B0F /* AVFoundation.framework */,
+				31A2830B1315FA0400963B0F /* CoreMedia.framework */,
+				31A2830D1315FA0400963B0F /* CoreVideo.framework */,
+				31A2830F1315FA0400963B0F /* QuartzCore.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		08FB77AEFE84172EC02AAC07 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				31F799181315E78C007B9D7D /* JpCoLangriseArmarkertiCameraView.h */,
+				31F799191315E78C007B9D7D /* JpCoLangriseArmarkertiCameraView.m */,
+				31F7991A1315E78C007B9D7D /* JpCoLangriseArmarkertiCameraViewProxy.h */,
+				31F7991B1315E78C007B9D7D /* JpCoLangriseArmarkertiCameraViewProxy.m */,
+				31F7991C1315E78C007B9D7D /* JpCoLangriseArmarkertiDetector.h */,
+				31F7991D1315E78C007B9D7D /* JpCoLagnriseArmarkertiDetector.m */,
+				24DE9E0F11C5FE74003F90F6 /* JpCoLangriseArmarkertiModuleAssets.h */,
+				24DE9E1011C5FE74003F90F6 /* JpCoLangriseArmarkertiModuleAssets.m */,
+				24DD6CF71134B3F500162E58 /* JpCoLangriseArmarkertiModule.h */,
+				24DD6CF81134B3F500162E58 /* JpCoLangriseArmarkertiModule.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		31F7992C1315E7F4007B9D7D /* OpenCV */ = {
+			isa = PBXGroup;
+			children = (
+				31A282C61315EA5900963B0F /* libopencv_calib3d.a */,
+				31A282C81315EA5900963B0F /* libopencv_core.a */,
+				31A282CA1315EA5900963B0F /* libopencv_imgproc.a */,
+			);
+			name = OpenCV;
+			sourceTree = "<group>";
+		};
+		32C88DFF0371C24200C91783 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				AA747D9E0F9514B9006C5449 /* JpCoLangriseArmarkerti_Prefix.pch */,
+				24DD6D1B1134B66800162E58 /* titanium.xcconfig */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		D2AAC07A0554694100DB518D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA747D9F0F9514B9006C5449 /* JpCoLangriseArmarkerti_Prefix.pch in Headers */,
+				24DD6CF91134B3F500162E58 /* JpCoLangriseArmarkertiModule.h in Headers */,
+				24DE9E1111C5FE74003F90F6 /* JpCoLangriseArmarkertiModuleAssets.h in Headers */,
+				31F7991E1315E78C007B9D7D /* JpCoLangriseArmarkertiCameraView.h in Headers */,
+				31F799201315E78C007B9D7D /* JpCoLangriseArmarkertiCameraViewProxy.h in Headers */,
+				31F799221315E78C007B9D7D /* JpCoLangriseArmarkertiDetector.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		D2AAC07D0554694100DB518D /* tiarmarker */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DEB921E08733DC00010E9CD /* Build configuration list for PBXNativeTarget "tiarmarker" */;
+			buildPhases = (
+				D2AAC07A0554694100DB518D /* Headers */,
+				D2AAC07B0554694100DB518D /* Sources */,
+				D2AAC07C0554694100DB518D /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = tiarmarker;
+			productName = tiarmarker;
+			productReference = D2AAC07E0554694100DB518D /* libJpCoLangriseArmarkerti.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0867D690FE84028FC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 1DEB922208733DC00010E9CD /* Build configuration list for PBXProject "tiarmarker" */;
+			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
+			mainGroup = 0867D691FE84028FC02AAC07 /* tiarmarker */;
+			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D2AAC07D0554694100DB518D /* tiarmarker */,
+				24416B8111C4CA220047AFDD /* Build & Test */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		24416B8011C4CA220047AFDD /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here\n\npython \"${TITANIUM_SDK}/titanium.py\" run --dir=\"${PROJECT_DIR}\"\nexit $?\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D2AAC07B0554694100DB518D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				24DD6CFA1134B3F500162E58 /* JpCoLangriseArmarkertiModule.m in Sources */,
+				24DE9E1211C5FE74003F90F6 /* JpCoLangriseArmarkertiModuleAssets.m in Sources */,
+				31F7991F1315E78C007B9D7D /* JpCoLangriseArmarkertiCameraView.m in Sources */,
+				31F799211315E78C007B9D7D /* JpCoLangriseArmarkertiCameraViewProxy.m in Sources */,
+				31F799231315E78C007B9D7D /* JpCoLagnriseArmarkertiDetector.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		24416B8511C4CA280047AFDD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D2AAC07D0554694100DB518D /* tiarmarker */;
+			targetProxy = 24416B8411C4CA280047AFDD /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		1DEB921F08733DC00010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 24DD6D1B1134B66800162E58 /* titanium.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = NO;
+				DSTROOT = /tmp/JpCoLangriseArmarkerti.dst;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = JpCoLangriseArmarkerti_Prefix.pch;
+				HEADER_SEARCH_PATHS = (
+					"$(TITANIUM_BASE_SDK)",
+					"$(TITANIUM_BASE_SDK2)",
+					opencv_universal/include,
+				);
+				INSTALL_PATH = /usr/local/lib;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/opencv_archived/lib\"",
+					"\"$(SRCROOT)/opencv_universal/lib\"",
+				);
+				PRODUCT_NAME = JpCoLangriseArmarkerti;
+			};
+			name = Debug;
+		};
+		1DEB922008733DC00010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 24DD6D1B1134B66800162E58 /* titanium.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				DSTROOT = /tmp/JpCoLangriseArmarkerti.dst;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = JpCoLangriseArmarkerti_Prefix.pch;
+				HEADER_SEARCH_PATHS = (
+					"$(TITANIUM_BASE_SDK)",
+					"$(TITANIUM_BASE_SDK2)",
+					opencv_universal/include,
+				);
+				INSTALL_PATH = /usr/local/lib;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/opencv_archived/lib\"",
+					"\"$(SRCROOT)/opencv_universal/lib\"",
+				);
+				PRODUCT_NAME = JpCoLangriseArmarkerti;
+			};
+			name = Release;
+		};
+		1DEB922308733DC00010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 24DD6D1B1134B66800162E58 /* titanium.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					opencv_universal/include,
+					"$(TITANIUM_BASE_SDK)",
+					"$(TITANIUM_BASE_SDK2)",
+				);
+				OTHER_LDFLAGS = "";
+				PREBINDING = NO;
+				SDKROOT = iphoneos4.2;
+			};
+			name = Debug;
+		};
+		1DEB922408733DC00010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 24DD6D1B1134B66800162E58 /* titanium.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					opencv_universal/include,
+					"$(TITANIUM_BASE_SDK)",
+					"$(TITANIUM_BASE_SDK2)",
+				);
+				OTHER_LDFLAGS = "";
+				PREBINDING = NO;
+				SDKROOT = iphoneos4.2;
+			};
+			name = Release;
+		};
+		24416B8211C4CA220047AFDD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 24DD6D1B1134B66800162E58 /* titanium.xcconfig */;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = "Build & test";
+			};
+			name = Debug;
+		};
+		24416B8311C4CA220047AFDD /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 24DD6D1B1134B66800162E58 /* titanium.xcconfig */;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = "Build & test";
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB921E08733DC00010E9CD /* Build configuration list for PBXNativeTarget "tiarmarker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB921F08733DC00010E9CD /* Debug */,
+				1DEB922008733DC00010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1DEB922208733DC00010E9CD /* Build configuration list for PBXProject "tiarmarker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB922308733DC00010E9CD /* Debug */,
+				1DEB922408733DC00010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		24416B8A11C4CA520047AFDD /* Build configuration list for PBXAggregateTarget "Build & Test" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				24416B8211C4CA220047AFDD /* Debug */,
+				24416B8311C4CA220047AFDD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0867D690FE84028FC02AAC07 /* Project object */;
+}
