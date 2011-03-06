@@ -3,15 +3,15 @@
 # during compilation, packaging, distribution, etc.
 #
 version: 0.1
-description: My module
-author: Your Name
-license: Specify your license
-copyright: Copyright (c) 2010 by Your Company
+description: AR-marker detection module
+author: KATAOKA,Atsushi
+license: MIT License
+copyright: Copyright (c) 2010 by KATAOKA,Atsushi
 
 
 # these should not be edited
 name: tiarmarker
-moduleid: jp.co.langrise.armarkerti
+moduleid: com.armarkerti
 guid: 15b7793e-5346-4b36-a07e-1c08252161e4
 platform: iphone
 minsdk: 1.6.0

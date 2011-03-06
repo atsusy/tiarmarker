@@ -22,10 +22,10 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		24DD6CF91134B3F500162E58 /* JpCoLangriseArmarkertiModule.h in Headers */ = {isa = PBXBuildFile; fileRef = 24DD6CF71134B3F500162E58 /* JpCoLangriseArmarkertiModule.h */; };
-		24DD6CFA1134B3F500162E58 /* JpCoLangriseArmarkertiModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 24DD6CF81134B3F500162E58 /* JpCoLangriseArmarkertiModule.m */; };
-		24DE9E1111C5FE74003F90F6 /* JpCoLangriseArmarkertiModuleAssets.h in Headers */ = {isa = PBXBuildFile; fileRef = 24DE9E0F11C5FE74003F90F6 /* JpCoLangriseArmarkertiModuleAssets.h */; };
-		24DE9E1211C5FE74003F90F6 /* JpCoLangriseArmarkertiModuleAssets.m in Sources */ = {isa = PBXBuildFile; fileRef = 24DE9E1011C5FE74003F90F6 /* JpCoLangriseArmarkertiModuleAssets.m */; };
+		24DD6CF91134B3F500162E58 /* ComArmarkertiModule.h in Headers */ = {isa = PBXBuildFile; fileRef = 24DD6CF71134B3F500162E58 /* ComArmarkertiModule.h */; };
+		24DD6CFA1134B3F500162E58 /* ComArmarkertiModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 24DD6CF81134B3F500162E58 /* ComArmarkertiModule.m */; };
+		24DE9E1111C5FE74003F90F6 /* ComArmarkertiModuleAssets.h in Headers */ = {isa = PBXBuildFile; fileRef = 24DE9E0F11C5FE74003F90F6 /* ComArmarkertiModuleAssets.h */; };
+		24DE9E1211C5FE74003F90F6 /* ComArmarkertiModuleAssets.m in Sources */ = {isa = PBXBuildFile; fileRef = 24DE9E1011C5FE74003F90F6 /* ComArmarkertiModuleAssets.m */; };
 		31A282C71315EA5900963B0F /* libopencv_calib3d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 31A282C61315EA5900963B0F /* libopencv_calib3d.a */; };
 		31A282C91315EA5900963B0F /* libopencv_core.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 31A282C81315EA5900963B0F /* libopencv_core.a */; };
 		31A282CB1315EA5900963B0F /* libopencv_imgproc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 31A282CA1315EA5900963B0F /* libopencv_imgproc.a */; };
@@ -34,12 +34,12 @@
 		31A2830C1315FA0400963B0F /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31A2830B1315FA0400963B0F /* CoreMedia.framework */; };
 		31A2830E1315FA0400963B0F /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31A2830D1315FA0400963B0F /* CoreVideo.framework */; };
 		31A283101315FA0400963B0F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31A2830F1315FA0400963B0F /* QuartzCore.framework */; };
-		31F7991E1315E78C007B9D7D /* JpCoLangriseArmarkertiCameraView.h in Headers */ = {isa = PBXBuildFile; fileRef = 31F799181315E78C007B9D7D /* JpCoLangriseArmarkertiCameraView.h */; };
-		31F7991F1315E78C007B9D7D /* JpCoLangriseArmarkertiCameraView.m in Sources */ = {isa = PBXBuildFile; fileRef = 31F799191315E78C007B9D7D /* JpCoLangriseArmarkertiCameraView.m */; };
-		31F799201315E78C007B9D7D /* JpCoLangriseArmarkertiCameraViewProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 31F7991A1315E78C007B9D7D /* JpCoLangriseArmarkertiCameraViewProxy.h */; };
-		31F799211315E78C007B9D7D /* JpCoLangriseArmarkertiCameraViewProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 31F7991B1315E78C007B9D7D /* JpCoLangriseArmarkertiCameraViewProxy.m */; };
-		31F799221315E78C007B9D7D /* JpCoLangriseArmarkertiDetector.h in Headers */ = {isa = PBXBuildFile; fileRef = 31F7991C1315E78C007B9D7D /* JpCoLangriseArmarkertiDetector.h */; };
-		31F799231315E78C007B9D7D /* JpCoLagnriseArmarkertiDetector.m in Sources */ = {isa = PBXBuildFile; fileRef = 31F7991D1315E78C007B9D7D /* JpCoLagnriseArmarkertiDetector.m */; };
+		31F7991E1315E78C007B9D7D /* ComArmarkertiCameraView.h in Headers */ = {isa = PBXBuildFile; fileRef = 31F799181315E78C007B9D7D /* ComArmarkertiCameraView.h */; };
+		31F7991F1315E78C007B9D7D /* ComArmarkertiCameraView.m in Sources */ = {isa = PBXBuildFile; fileRef = 31F799191315E78C007B9D7D /* ComArmarkertiCameraView.m */; };
+		31F799201315E78C007B9D7D /* ComArmarkertiCameraViewProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 31F7991A1315E78C007B9D7D /* ComArmarkertiCameraViewProxy.h */; };
+		31F799211315E78C007B9D7D /* ComArmarkertiCameraViewProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 31F7991B1315E78C007B9D7D /* ComArmarkertiCameraViewProxy.m */; };
+		31F799221315E78C007B9D7D /* ComArmarkertiDetector.h in Headers */ = {isa = PBXBuildFile; fileRef = 31F7991C1315E78C007B9D7D /* ComArmarkertiDetector.h */; };
+		31F799231315E78C007B9D7D /* ComArmarkertiDetector.m in Sources */ = {isa = PBXBuildFile; fileRef = 31F7991D1315E78C007B9D7D /* ComArmarkertiDetector.m */; };
 		AA747D9F0F9514B9006C5449 /* JpCoLangriseArmarkerti_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AA747D9E0F9514B9006C5449 /* JpCoLangriseArmarkerti_Prefix.pch */; };
 		AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
 /* End PBXBuildFile section */
@@ -55,11 +55,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		24DD6CF71134B3F500162E58 /* JpCoLangriseArmarkertiModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JpCoLangriseArmarkertiModule.h; path = Classes/JpCoLangriseArmarkertiModule.h; sourceTree = "<group>"; };
-		24DD6CF81134B3F500162E58 /* JpCoLangriseArmarkertiModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JpCoLangriseArmarkertiModule.m; path = Classes/JpCoLangriseArmarkertiModule.m; sourceTree = "<group>"; };
+		24DD6CF71134B3F500162E58 /* ComArmarkertiModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ComArmarkertiModule.h; path = Classes/ComArmarkertiModule.h; sourceTree = "<group>"; };
+		24DD6CF81134B3F500162E58 /* ComArmarkertiModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ComArmarkertiModule.m; path = Classes/ComArmarkertiModule.m; sourceTree = "<group>"; };
 		24DD6D1B1134B66800162E58 /* titanium.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = titanium.xcconfig; sourceTree = "<group>"; };
-		24DE9E0F11C5FE74003F90F6 /* JpCoLangriseArmarkertiModuleAssets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JpCoLangriseArmarkertiModuleAssets.h; path = Classes/JpCoLangriseArmarkertiModuleAssets.h; sourceTree = "<group>"; };
-		24DE9E1011C5FE74003F90F6 /* JpCoLangriseArmarkertiModuleAssets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JpCoLangriseArmarkertiModuleAssets.m; path = Classes/JpCoLangriseArmarkertiModuleAssets.m; sourceTree = "<group>"; };
+		24DE9E0F11C5FE74003F90F6 /* ComArmarkertiModuleAssets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ComArmarkertiModuleAssets.h; path = Classes/ComArmarkertiModuleAssets.h; sourceTree = "<group>"; };
+		24DE9E1011C5FE74003F90F6 /* ComArmarkertiModuleAssets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ComArmarkertiModuleAssets.m; path = Classes/ComArmarkertiModuleAssets.m; sourceTree = "<group>"; };
 		31A282C61315EA5900963B0F /* libopencv_calib3d.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_calib3d.a; path = opencv_universal/lib/libopencv_calib3d.a; sourceTree = "<group>"; };
 		31A282C81315EA5900963B0F /* libopencv_core.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_core.a; path = opencv_universal/lib/libopencv_core.a; sourceTree = "<group>"; };
 		31A282CA1315EA5900963B0F /* libopencv_imgproc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_imgproc.a; path = opencv_universal/lib/libopencv_imgproc.a; sourceTree = "<group>"; };
@@ -68,15 +68,15 @@
 		31A2830B1315FA0400963B0F /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		31A2830D1315FA0400963B0F /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		31A2830F1315FA0400963B0F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		31F799181315E78C007B9D7D /* JpCoLangriseArmarkertiCameraView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JpCoLangriseArmarkertiCameraView.h; path = Classes/JpCoLangriseArmarkertiCameraView.h; sourceTree = "<group>"; };
-		31F799191315E78C007B9D7D /* JpCoLangriseArmarkertiCameraView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JpCoLangriseArmarkertiCameraView.m; path = Classes/JpCoLangriseArmarkertiCameraView.m; sourceTree = "<group>"; };
-		31F7991A1315E78C007B9D7D /* JpCoLangriseArmarkertiCameraViewProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JpCoLangriseArmarkertiCameraViewProxy.h; path = Classes/JpCoLangriseArmarkertiCameraViewProxy.h; sourceTree = "<group>"; };
-		31F7991B1315E78C007B9D7D /* JpCoLangriseArmarkertiCameraViewProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JpCoLangriseArmarkertiCameraViewProxy.m; path = Classes/JpCoLangriseArmarkertiCameraViewProxy.m; sourceTree = "<group>"; };
-		31F7991C1315E78C007B9D7D /* JpCoLangriseArmarkertiDetector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JpCoLangriseArmarkertiDetector.h; path = Classes/JpCoLangriseArmarkertiDetector.h; sourceTree = "<group>"; };
-		31F7991D1315E78C007B9D7D /* JpCoLagnriseArmarkertiDetector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JpCoLagnriseArmarkertiDetector.m; path = Classes/JpCoLagnriseArmarkertiDetector.m; sourceTree = "<group>"; };
+		31F799181315E78C007B9D7D /* ComArmarkertiCameraView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ComArmarkertiCameraView.h; path = Classes/ComArmarkertiCameraView.h; sourceTree = "<group>"; };
+		31F799191315E78C007B9D7D /* ComArmarkertiCameraView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ComArmarkertiCameraView.m; path = Classes/ComArmarkertiCameraView.m; sourceTree = "<group>"; };
+		31F7991A1315E78C007B9D7D /* ComArmarkertiCameraViewProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ComArmarkertiCameraViewProxy.h; path = Classes/ComArmarkertiCameraViewProxy.h; sourceTree = "<group>"; };
+		31F7991B1315E78C007B9D7D /* ComArmarkertiCameraViewProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ComArmarkertiCameraViewProxy.m; path = Classes/ComArmarkertiCameraViewProxy.m; sourceTree = "<group>"; };
+		31F7991C1315E78C007B9D7D /* ComArmarkertiDetector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ComArmarkertiDetector.h; path = Classes/ComArmarkertiDetector.h; sourceTree = "<group>"; };
+		31F7991D1315E78C007B9D7D /* ComArmarkertiDetector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ComArmarkertiDetector.m; path = Classes/ComArmarkertiDetector.m; sourceTree = "<group>"; };
 		AA747D9E0F9514B9006C5449 /* JpCoLangriseArmarkerti_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JpCoLangriseArmarkerti_Prefix.pch; sourceTree = SOURCE_ROOT; };
 		AACBBE490F95108600F1A2B1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		D2AAC07E0554694100DB518D /* libJpCoLangriseArmarkerti.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libJpCoLangriseArmarkerti.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2AAC07E0554694100DB518D /* libComArmarkerti.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libComArmarkerti.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,7 +102,7 @@
 		034768DFFF38A50411DB9C8B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D2AAC07E0554694100DB518D /* libJpCoLangriseArmarkerti.a */,
+				D2AAC07E0554694100DB518D /* libComArmarkerti.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -135,16 +135,16 @@
 		08FB77AEFE84172EC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				31F799181315E78C007B9D7D /* JpCoLangriseArmarkertiCameraView.h */,
-				31F799191315E78C007B9D7D /* JpCoLangriseArmarkertiCameraView.m */,
-				31F7991A1315E78C007B9D7D /* JpCoLangriseArmarkertiCameraViewProxy.h */,
-				31F7991B1315E78C007B9D7D /* JpCoLangriseArmarkertiCameraViewProxy.m */,
-				31F7991C1315E78C007B9D7D /* JpCoLangriseArmarkertiDetector.h */,
-				31F7991D1315E78C007B9D7D /* JpCoLagnriseArmarkertiDetector.m */,
-				24DE9E0F11C5FE74003F90F6 /* JpCoLangriseArmarkertiModuleAssets.h */,
-				24DE9E1011C5FE74003F90F6 /* JpCoLangriseArmarkertiModuleAssets.m */,
-				24DD6CF71134B3F500162E58 /* JpCoLangriseArmarkertiModule.h */,
-				24DD6CF81134B3F500162E58 /* JpCoLangriseArmarkertiModule.m */,
+				31F799181315E78C007B9D7D /* ComArmarkertiCameraView.h */,
+				31F799191315E78C007B9D7D /* ComArmarkertiCameraView.m */,
+				31F7991A1315E78C007B9D7D /* ComArmarkertiCameraViewProxy.h */,
+				31F7991B1315E78C007B9D7D /* ComArmarkertiCameraViewProxy.m */,
+				31F7991C1315E78C007B9D7D /* ComArmarkertiDetector.h */,
+				31F7991D1315E78C007B9D7D /* ComArmarkertiDetector.m */,
+				24DE9E0F11C5FE74003F90F6 /* ComArmarkertiModuleAssets.h */,
+				24DE9E1011C5FE74003F90F6 /* ComArmarkertiModuleAssets.m */,
+				24DD6CF71134B3F500162E58 /* ComArmarkertiModule.h */,
+				24DD6CF81134B3F500162E58 /* ComArmarkertiModule.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -176,11 +176,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA747D9F0F9514B9006C5449 /* JpCoLangriseArmarkerti_Prefix.pch in Headers */,
-				24DD6CF91134B3F500162E58 /* JpCoLangriseArmarkertiModule.h in Headers */,
-				24DE9E1111C5FE74003F90F6 /* JpCoLangriseArmarkertiModuleAssets.h in Headers */,
-				31F7991E1315E78C007B9D7D /* JpCoLangriseArmarkertiCameraView.h in Headers */,
-				31F799201315E78C007B9D7D /* JpCoLangriseArmarkertiCameraViewProxy.h in Headers */,
-				31F799221315E78C007B9D7D /* JpCoLangriseArmarkertiDetector.h in Headers */,
+				24DD6CF91134B3F500162E58 /* ComArmarkertiModule.h in Headers */,
+				24DE9E1111C5FE74003F90F6 /* ComArmarkertiModuleAssets.h in Headers */,
+				31F7991E1315E78C007B9D7D /* ComArmarkertiCameraView.h in Headers */,
+				31F799201315E78C007B9D7D /* ComArmarkertiCameraViewProxy.h in Headers */,
+				31F799221315E78C007B9D7D /* ComArmarkertiDetector.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -201,7 +201,7 @@
 			);
 			name = tiarmarker;
 			productName = tiarmarker;
-			productReference = D2AAC07E0554694100DB518D /* libJpCoLangriseArmarkerti.a */;
+			productReference = D2AAC07E0554694100DB518D /* libComArmarkerti.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
@@ -251,11 +251,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				24DD6CFA1134B3F500162E58 /* JpCoLangriseArmarkertiModule.m in Sources */,
-				24DE9E1211C5FE74003F90F6 /* JpCoLangriseArmarkertiModuleAssets.m in Sources */,
-				31F7991F1315E78C007B9D7D /* JpCoLangriseArmarkertiCameraView.m in Sources */,
-				31F799211315E78C007B9D7D /* JpCoLangriseArmarkertiCameraViewProxy.m in Sources */,
-				31F799231315E78C007B9D7D /* JpCoLagnriseArmarkertiDetector.m in Sources */,
+				24DD6CFA1134B3F500162E58 /* ComArmarkertiModule.m in Sources */,
+				24DE9E1211C5FE74003F90F6 /* ComArmarkertiModuleAssets.m in Sources */,
+				31F7991F1315E78C007B9D7D /* ComArmarkertiCameraView.m in Sources */,
+				31F799211315E78C007B9D7D /* ComArmarkertiCameraViewProxy.m in Sources */,
+				31F799231315E78C007B9D7D /* ComArmarkertiDetector.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -277,13 +277,13 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = NO;
-				DSTROOT = /tmp/JpCoLangriseArmarkerti.dst;
+				DSTROOT = /tmp/ComArmarkerti.dst;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = JpCoLangriseArmarkerti_Prefix.pch;
+				GCC_PREFIX_HEADER = ComArmarkerti_Prefix.pch;
 				HEADER_SEARCH_PATHS = (
 					"$(TITANIUM_BASE_SDK)",
 					"$(TITANIUM_BASE_SDK2)",
@@ -295,7 +295,7 @@
 					"\"$(SRCROOT)/opencv_archived/lib\"",
 					"\"$(SRCROOT)/opencv_universal/lib\"",
 				);
-				PRODUCT_NAME = JpCoLangriseArmarkerti;
+				PRODUCT_NAME = ComArmarkerti;
 			};
 			name = Debug;
 		};
@@ -305,10 +305,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				DSTROOT = /tmp/JpCoLangriseArmarkerti.dst;
+				DSTROOT = /tmp/ComArmarkerti.dst;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = JpCoLangriseArmarkerti_Prefix.pch;
+				GCC_PREFIX_HEADER = ComArmarkerti_Prefix.pch;
 				HEADER_SEARCH_PATHS = (
 					"$(TITANIUM_BASE_SDK)",
 					"$(TITANIUM_BASE_SDK2)",
@@ -320,7 +320,7 @@
 					"\"$(SRCROOT)/opencv_archived/lib\"",
 					"\"$(SRCROOT)/opencv_universal/lib\"",
 				);
-				PRODUCT_NAME = JpCoLangriseArmarkerti;
+				PRODUCT_NAME = ComArmarkerti;
 			};
 			name = Release;
 		};
