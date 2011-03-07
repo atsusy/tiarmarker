@@ -3,7 +3,7 @@ Titanium.UI.setBackgroundColor('#000');
 
 var window = Titanium.UI.createWindow();
 var overlay = Titanium.UI.createView({
-	center:{x:0,y:0},
+	center:{x:0, y:0},
 	width:82,
 	height:82,
 	backgroundColor:'#fff',
@@ -24,34 +24,32 @@ overlay.add(label);
 
 var armarker = require('com.armarkerti');
 var cameraView = armarker.createCameraView({
-	debug:false,
 	detected:function(e){
 		var found_a = false;
 		for(var i in e.markers){
 			var marker = e.markers[i];
-			if(marker.code == 0x9f9f)
+			if(marker.code == 0x9f9f) // is mark 'A'?
 			{
-				var transform = Ti.UI.create3DMatrix();
+				var t = Ti.UI.create3DMatrix();
 				
-				transform.m11 = marker.transform.m11;
-				transform.m12 = marker.transform.m12;
-				transform.m13 = marker.transform.m13;
-				transform.m14 = marker.transform.m14;
-				transform.m21 = marker.transform.m21;
-				transform.m22 = marker.transform.m22;
-				transform.m23 = marker.transform.m23;
-				transform.m24 = marker.transform.m24;
-				transform.m31 = marker.transform.m31;
-				transform.m32 = marker.transform.m32;
-				transform.m33 = marker.transform.m33;
-				transform.m34 = marker.transform.m34;
-				transform.m41 = 0;
-				transform.m42 = 0;
-				transform.m43 = 0;
-				transform.m44 = marker.transform.m44;
-				
-				overlay.animate({center:{x:marker.moment.x, y:marker.moment.y}, transform:transform, duration:10 });
-				
+				t.m11 = marker.transform.m11;
+				t.m12 = marker.transform.m12;
+				t.m13 = marker.transform.m13;
+				t.m14 = marker.transform.m14;
+				t.m21 = marker.transform.m21;
+				t.m22 = marker.transform.m22;
+				t.m23 = marker.transform.m23;
+				t.m24 = marker.transform.m24;
+				t.m31 = marker.transform.m31;
+				t.m32 = marker.transform.m32;
+				t.m33 = marker.transform.m33;
+				t.m34 = marker.transform.m34;
+				t.m41 = marker.transform.m41;
+				t.m42 = marker.transform.m42;
+				t.m43 = marker.transform.m43;
+				t.m44 = marker.transform.m44;
+
+				overlay.animate({ transform:t, duration:0 });
 				found_a = true;
 				break;
 			}
