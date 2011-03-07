@@ -73,6 +73,13 @@
 		
 	// Assign session to an ivar.
 	[self setSession:_session];
+#else
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Not supported"
+                                                    message:@"only works on device."
+                                                   delegate:nil
+                                          cancelButtonTitle:nil
+                                          otherButtonTitles:@"OK", nil];
+    [alert show];
 #endif	
 }
 
