@@ -14,7 +14,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D2AAC07D0554694100DB518D"
-               BuildableName = "libJpCoLangriseArmarkerti.a"
+               BuildableName = "libComArmarkerti.a"
                BlueprintName = "tiarmarker"
                ReferencedContainer = "container:tiarmarker.xcodeproj">
             </BuildableReference>

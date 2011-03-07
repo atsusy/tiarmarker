@@ -54,7 +54,6 @@ static float distortion_values[] = {
         {
             temp->data.fl[i * 4 + j] = rotation->data.fl[i * 3 + j];
         }
-        temp->data.fl[i * 4 + 3] = translationVec->data.fl[i];
     }
     
     for(int i = 0; i < 3 * 3; i++)
@@ -64,19 +63,22 @@ static float distortion_values[] = {
     
     cvmMul(intrinsic, temp, temp);
     
+    temp->data.fl[4*0+3] = translationVec->data.fl[0]; // m41
+    temp->data.fl[4*1+3] = translationVec->data.fl[1]; // m42 
+    temp->data.fl[4*2+3] = 1.0f;                       // m43
+    
     for(int row = 0; row < 3; row++)
     {
         for(int col = 0; col < 4; col++)
         {
-            transform->data.fl[row * 4 + col] = temp->data.fl[row * 4 + col];
+            transform->data.fl[row*4+col] = temp->data.fl[row*4+col];
         }
     }
     
-    transform->data.fl[4*2+3] = -1/z; //m34
-    transform->data.fl[4*3+0] = 0;
-    transform->data.fl[4*3+1] = 0;
-    transform->data.fl[4*3+2] = 0;
-    transform->data.fl[4*3+3] = 1;
+    transform->data.fl[4*3+0] = 0;    // m14
+    transform->data.fl[4*3+1] = 0;    // m24
+    transform->data.fl[4*3+2] = 1/z;  // m34
+    transform->data.fl[4*3+3] = 1;    // m44
     
     cvTranspose(transform, transform);
     
@@ -447,6 +449,9 @@ static float distortion_values[] = {
 					
                     m.moment = CGPointMake((p[0].x + p[1].x + p[2].x + p[3].x) / 4,
 										   (p[0].y + p[1].y + p[2].y + p[3].y) / 4);
+                    
+                    translation->data.fl[0] = m.moment.x;
+                    translation->data.fl[1] = m.moment.y;
                     
                     [m setRotation:rotation andTranslation:translation];
                     

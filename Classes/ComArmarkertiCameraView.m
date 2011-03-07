@@ -159,7 +159,15 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 												 colorSpace, 
 												 kCGBitmapByteOrder32Little | kCGImageAlphaPremultipliedFirst); 
 
+    
+    
     CGImageRef current = CGBitmapContextCreateImage(context);
+    CGImageRef current2 = CGImageCreateWithImageInRect(current, CGRectMake((width-self.bounds.size.height)/2, 
+                                                                           (height-self.bounds.size.width)/2, 
+                                                                           self.bounds.size.height, 
+                                                                           self.bounds.size.width));
+    CGImageRelease(current);
+    current = current2;
   
 	// Create a Quartz image from the pixel data in the bitmap graphics context
 	@synchronized(self)
@@ -179,7 +187,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     CGSize sz = CGSizeMake(CGImageGetWidth(image), CGImageGetHeight(image));
 	if(!detector)
 	{
-		detector = [[ComArmarkertiDetector alloc] initWithCGSize:sz];
+        return;
 	}
 
 	if (detected_handler) 
@@ -191,33 +199,31 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 			for(Marker *marker in [detector detectWithinCGImageRef:image])
 			{
 				NSMutableDictionary *marker_dic = [[NSMutableDictionary alloc] init];
-              
+                              
                 // code
                 [marker_dic setValue:NUMINT(marker.code) forKey:@"code"];
 
                 // moment
-                CGPoint moment_ = CGPointMake(marker.moment.x * self.frame.size.width / sz.width, 
-                                              marker.moment.y * self.frame.size.height / sz.height);
-				[marker_dic setValue:[[[TiPoint alloc] initWithPoint:moment_] autorelease] forKey:@"moment"];
+				[marker_dic setValue:[[[TiPoint alloc] initWithPoint:marker.moment] autorelease] forKey:@"moment"];
                 
                 // transform
-                NSMutableDictionary *marker_transform = [[NSMutableDictionary alloc] init];
-                [marker_transform setValue:NUMFLOAT(marker.transform->data.fl[0]) forKey:@"m11"];
-                [marker_transform setValue:NUMFLOAT(marker.transform->data.fl[1]) forKey:@"m12"];
-                [marker_transform setValue:NUMFLOAT(marker.transform->data.fl[2]) forKey:@"m13"];
-                [marker_transform setValue:NUMFLOAT(marker.transform->data.fl[3]) forKey:@"m14"];
-                [marker_transform setValue:NUMFLOAT(marker.transform->data.fl[4]) forKey:@"m21"];
-                [marker_transform setValue:NUMFLOAT(marker.transform->data.fl[5]) forKey:@"m22"];
-                [marker_transform setValue:NUMFLOAT(marker.transform->data.fl[6]) forKey:@"m23"];
-                [marker_transform setValue:NUMFLOAT(marker.transform->data.fl[7]) forKey:@"m24"];
-                [marker_transform setValue:NUMFLOAT(marker.transform->data.fl[8]) forKey:@"m31"];
-                [marker_transform setValue:NUMFLOAT(marker.transform->data.fl[9]) forKey:@"m32"];
-                [marker_transform setValue:NUMFLOAT(marker.transform->data.fl[10]) forKey:@"m33"];
-                [marker_transform setValue:NUMFLOAT(marker.transform->data.fl[11]) forKey:@"m34"];
-                [marker_transform setValue:NUMFLOAT(marker.transform->data.fl[12]) forKey:@"m41"];
-                [marker_transform setValue:NUMFLOAT(marker.transform->data.fl[13]) forKey:@"m42"];
-                [marker_transform setValue:NUMFLOAT(marker.transform->data.fl[14]) forKey:@"m43"];
-                [marker_transform setValue:NUMFLOAT(marker.transform->data.fl[15]) forKey:@"m44"];
+                NSDictionary *marker_transform = [[[NSDictionary alloc] initWithObjectsAndKeys:
+                                                  NUMFLOAT(marker.transform->data.fl[0]), @"m11",
+                                                  NUMFLOAT(marker.transform->data.fl[1]), @"m12",
+                                                  NUMFLOAT(marker.transform->data.fl[2]), @"m13",
+                                                  NUMFLOAT(marker.transform->data.fl[3]), @"m14",
+                                                  NUMFLOAT(marker.transform->data.fl[4]), @"m21",
+                                                  NUMFLOAT(marker.transform->data.fl[5]), @"m22",
+                                                  NUMFLOAT(marker.transform->data.fl[6]), @"m23",
+                                                  NUMFLOAT(marker.transform->data.fl[7]), @"m24",
+                                                  NUMFLOAT(marker.transform->data.fl[8]), @"m31",
+                                                  NUMFLOAT(marker.transform->data.fl[9]), @"m32",
+                                                  NUMFLOAT(marker.transform->data.fl[10]),@"m33",
+                                                  NUMFLOAT(marker.transform->data.fl[11]),@"m34",
+                                                  NUMFLOAT(marker.transform->data.fl[12]),@"m41",
+                                                  NUMFLOAT(marker.transform->data.fl[13]),@"m42",
+                                                  NUMFLOAT(marker.transform->data.fl[14]),@"m43",
+                                                  NUMFLOAT(marker.transform->data.fl[15]),@"m44",nil] autorelease];
 
                 [marker_dic setValue:marker_transform forKey:@"transform"];
                 [marker_transform release];
@@ -237,7 +243,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 	
 	[self performSelectorOnMainThread:@selector(setNeedsDisplay) 
 						   withObject:nil 
-						waitUntilDone:YES];
+						waitUntilDone:NO];
 	
 	CGContextRelease(context); 
     CGColorSpaceRelease(colorSpace);
@@ -252,9 +258,14 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 		{
 			return;
 		}
+        
+        for(UIView *subview in self.subviews)
+        {
+            subview.layer.anchorPoint = CGPointMake(0.5f, 0.5f);
+        }
 		
 		CGContextRef context = UIGraphicsGetCurrentContext();
-        CGRect imageRect = CGRectMake(0, 0, rect.size.width, rect.size.height);
+        CGRect imageRect = CGRectMake(0, 0, CGImageGetWidth(image), CGImageGetHeight(image));
 
 		CGContextSetInterpolationQuality(context, kCGInterpolationNone);
         
@@ -273,6 +284,8 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 -(void)frameSizeChanged:(CGRect)frame bounds:(CGRect)bounds 
 {
 	[super frameSizeChanged:frame bounds:bounds];
+    RELEASE_TO_NIL(detector);
+    detector = [[ComArmarkertiDetector alloc] initWithCGSize:bounds.size];    
 }
 
 -(void)dealloc 
