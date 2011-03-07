@@ -165,15 +165,12 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 												 colorSpace, 
 												 kCGBitmapByteOrder32Little | kCGImageAlphaPremultipliedFirst); 
 
-    
-    
-    CGImageRef current = CGBitmapContextCreateImage(context);
-    CGImageRef current2 = CGImageCreateWithImageInRect(current, CGRectMake((width-self.bounds.size.height)/2, 
-                                                                           (height-self.bounds.size.width)/2, 
-                                                                           self.bounds.size.height, 
-                                                                           self.bounds.size.width));
-    CGImageRelease(current);
-    current = current2;
+    CGImageRef temp = CGBitmapContextCreateImage(context);
+    CGImageRef current = CGImageCreateWithImageInRect(temp, CGRectMake((width-self.bounds.size.height)/2, 
+                                                                       (height-self.bounds.size.width)/2, 
+                                                                       self.bounds.size.height, 
+                                                                       self.bounds.size.width));
+    CGImageRelease(temp);
   
 	// Create a Quartz image from the pixel data in the bitmap graphics context
 	@synchronized(self)
