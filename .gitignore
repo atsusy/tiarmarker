@@ -1,3 +1,7 @@
+*.pbxuser
+*.perspective
+*.perspectivev3
+xcuserdata
 tmp
 bin
 build
