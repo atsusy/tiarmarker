@@ -2,6 +2,7 @@
 Titanium.UI.setBackgroundColor('#000');
 
 var window = Titanium.UI.createWindow();
+
 var overlay = Titanium.UI.createView({
 	center:{x:0, y:0},
 	width:82,
@@ -10,8 +11,8 @@ var overlay = Titanium.UI.createView({
 	borderRadius:12,
 	borderWidth:1,
 	borderColor:'#fff',
-	opacity:0.9,
-	visible:true
+	opacity:1,
+	visible:false
 });
 var label = Titanium.UI.createLabel({
 	text:'a',
@@ -25,11 +26,10 @@ overlay.add(label);
 var armarker = require('com.armarkerti');
 var cameraView = armarker.createCameraView({
 	detected:function(e){
-		var found_a = false;
+		var a_found = false;
 		for(var i in e.markers){
 			var marker = e.markers[i];
-			if(marker.code == 0x9f9f) // is mark 'A'?
-			{
+			if(marker.code == 0x9f9f) { // is mark 'A'?
 				var t = Ti.UI.create3DMatrix();
 				
 				t.m11 = marker.transform.m11;
@@ -50,11 +50,11 @@ var cameraView = armarker.createCameraView({
 				t.m44 = marker.transform.m44;
 
 				overlay.animate({ transform:t, duration:0 });
-				found_a = true;
+				a_found = true;
 				break;
 			}
 		}
-		overlay.visible = found_a;	
+		overlay.visible = a_found;	
 	}
 });
 cameraView.add(overlay);

@@ -125,6 +125,12 @@
     return rotatedImage;
 }
 
+- (void)addSubview:(UIView *)view
+{
+    [super addSubview:view];
+    view.layer.anchorPoint = CGPointMake(0.5f, 0.5f);
+}
+
 #if !TARGET_IPHONE_SIMULATOR
 // Delegate routine that is called when a sample buffer was written
 - (void)captureOutput:(AVCaptureOutput *)captureOutput 
@@ -184,13 +190,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 	// Unlock the pixel buffer
     CVPixelBufferUnlockBaseAddress(imageBuffer, 0);
 	
-    CGSize sz = CGSizeMake(CGImageGetWidth(image), CGImageGetHeight(image));
-	if(!detector)
-	{
-        return;
-	}
-
-	if (detected_handler) 
+	if (detector && detected_handler) 
 	{
 		NSMutableDictionary *args = [[NSMutableDictionary alloc] init];
 		NSMutableArray *markers = [[NSMutableArray alloc] init];
@@ -259,11 +259,6 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 			return;
 		}
         
-        for(UIView *subview in self.subviews)
-        {
-            subview.layer.anchorPoint = CGPointMake(0.5f, 0.5f);
-        }
-		
 		CGContextRef context = UIGraphicsGetCurrentContext();
         CGRect imageRect = CGRectMake(0, 0, CGImageGetWidth(image), CGImageGetHeight(image));
 
