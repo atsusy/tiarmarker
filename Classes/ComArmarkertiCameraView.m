@@ -6,6 +6,9 @@
 //  Copyright 2011 Langrise Co.,Ltd. All rights reserved.
 //
 
+#include <sys/types.h>
+#include <sys/sysctl.h>
+
 #import "ComArmarkertiCameraView.h"
 #import "TiUtils.h"
 #import "Ti3DMatrix.h"
@@ -23,6 +26,26 @@
 {
 	RELEASE_TO_NIL(detected_handler);
 	detected_handler = [value retain];
+}
+
+- (NSString *) platform
+{
+	size_t size;
+	sysctlbyname("hw.machine", NULL, &size, NULL, 0);
+	char *machine = malloc(size);
+	sysctlbyname("hw.machine", machine, &size, NULL, 0);
+	/*
+	 Possible values:
+	 "iPhone1,1" = iPhone 1G
+	 "iPhone1,2" = iPhone 3G
+	 "iPhone2,1" = iPhone 3GS
+	 "iPod1,1"   = iPod touch 1G
+	 "iPod2,1"   = iPod touch 2G
+	 */
+	NSString *platform = [NSString stringWithCString:machine encoding:NSUTF8StringEncoding];
+	
+	free(machine);
+	return platform;
 }
 
 - (void)startCapture
@@ -119,7 +142,6 @@
                           -(rotatedRect.size.height/2),
                           -(rotatedRect.size.width/2));
     
-    
     CGContextDrawImage(bmContext, 
                        CGRectMake(0, 0,
                                   rotatedRect.size.height,
@@ -138,6 +160,23 @@
     view.layer.anchorPoint = CGPointMake(0.5f, 0.5f);
 }
 
+- (void)updateImage:(CGImageRef)rawImage
+{	
+	UIGraphicsBeginImageContext(CGSizeMake(self.bounds.size.height, self.bounds.size.width));
+	
+	[[UIImage imageWithCGImage:rawImage] drawInRect:CGRectMake(0, 0, self.bounds.size.height, self.bounds.size.width)];
+	
+	CGImageRef current = [UIGraphicsGetImageFromCurrentImageContext() CGImage];
+	UIGraphicsEndImageContext();
+	
+	// Create a Quartz image from the pixel data in the bitmap graphics context
+	if(image)
+	{
+		CGImageRelease(image);
+	}
+	image = [self CGImageRotatedByAngle:current angle:-90];
+}
+
 #if !TARGET_IPHONE_SIMULATOR
 // Delegate routine that is called when a sample buffer was written
 - (void)captureOutput:(AVCaptureOutput *)captureOutput 
@@ -151,14 +190,23 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     CVPixelBufferLockBaseAddress(imageBuffer, 0); 
 	
     // Get the number of bytes per row for the pixel buffer
-    void *baseAddress = CVPixelBufferGetBaseAddress(imageBuffer); 
-	
-    // Get the number of bytes per row for the pixel buffer
     size_t bytesPerRow = CVPixelBufferGetBytesPerRow(imageBuffer); 
     
 	// Get the pixel buffer width and height
     size_t width = CVPixelBufferGetWidth(imageBuffer); 
     size_t height = CVPixelBufferGetHeight(imageBuffer); 
+	
+    // Get the number of bytes per row for the pixel buffer
+	uint8_t *baseAddress;
+	if ([[self platform] isEqualToString:@"iPhone1,2"])
+	{
+		baseAddress = malloc( bytesPerRow * height );
+		memcpy( baseAddress, CVPixelBufferGetBaseAddress(imageBuffer), bytesPerRow * height );
+	}
+	else
+	{
+		baseAddress = CVPixelBufferGetBaseAddress(imageBuffer); 
+	}
 	
     // Create a device-dependent RGB color space
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB(); 
@@ -170,30 +218,17 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 												 8, 
 												 bytesPerRow, 
 												 colorSpace, 
-												 kCGBitmapByteOrder32Little | kCGImageAlphaPremultipliedFirst); 
+												 kCGBitmapByteOrder32Little | kCGImageAlphaNoneSkipFirst); 
+	CGImageRef temp = CGBitmapContextCreateImage(context);
 
-    CGImageRef temp = CGBitmapContextCreateImage(context);
-    CGImageRef current = CGImageCreateWithImageInRect(temp, CGRectMake((width-self.bounds.size.height)/2, 
-                                                                       (height-self.bounds.size.width)/2, 
-                                                                       self.bounds.size.height, 
-                                                                       self.bounds.size.width));
-    CGImageRelease(temp);
-  
-	// Create a Quartz image from the pixel data in the bitmap graphics context
-	@synchronized(self)
-	{
-		if(image)
-		{
-			CGImageRelease(image);
-		}
-		image = [self CGImageRotatedByAngle:current angle:-90];
-	}
-
-    CGImageRelease(current);
-   
 	// Unlock the pixel buffer
     CVPixelBufferUnlockBaseAddress(imageBuffer, 0);
 	
+	// Update captured image.(UIGraphicsBeginImageContext not thread safe?)
+	[self performSelectorOnMainThread:@selector(updateImage:) 
+						   withObject:temp 
+						waitUntilDone:YES];
+   
 	if (detector && detected_handler) 
 	{
 		NSMutableDictionary *args = [[NSMutableDictionary alloc] init];
@@ -244,40 +279,43 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 		[markers release];
 		[args release];
 	}
-	
+
 	[self performSelectorOnMainThread:@selector(setNeedsDisplay) 
 						   withObject:nil 
-						waitUntilDone:NO];
-	
+						waitUntilDone:YES];
+
+    CGImageRelease(temp);
 	CGContextRelease(context); 
     CGColorSpaceRelease(colorSpace);
+	if ([[self platform] isEqualToString:@"iPhone1,2"])
+	{
+		free(baseAddress);
+	}	
 }
 #endif
 
 - (void)drawRect:(CGRect)rect
 {
-	@synchronized(self)
+	if(!image)
 	{
-		if(!image)
-		{
-			return;
-		}
-        
-		CGContextRef context = UIGraphicsGetCurrentContext();
-        CGRect imageRect = CGRectMake(0, 0, CGImageGetWidth(image), CGImageGetHeight(image));
-
-		CGContextSetInterpolationQuality(context, kCGInterpolationNone);
-        
-        CGContextTranslateCTM(context, 0, CGImageGetHeight(image));
-        CGContextScaleCTM(context, 1, -1);
-		
-        CGContextDrawImage(context, imageRect, image);
-		if(debug)
-		{
-			[detector drawDetectedImage:context rect:imageRect];		
-		}
+		return;
 	}
-    [super drawRect:rect];
+        
+	CGContextRef context = UIGraphicsGetCurrentContext();
+    CGRect imageRect = CGRectMake(0, 0, CGImageGetWidth(image), CGImageGetHeight(image));
+
+	CGContextSetInterpolationQuality(context, kCGInterpolationNone);
+        
+    CGContextTranslateCTM(context, 0, CGImageGetHeight(image));
+    CGContextScaleCTM(context, 1, -1);
+		
+    CGContextDrawImage(context, imageRect, image);
+	if(debug)
+	{
+		[detector drawDetectedImage:context rect:imageRect];		
+	}
+	
+	[super drawRect:rect];
 }
 
 -(void)frameSizeChanged:(CGRect)frame bounds:(CGRect)bounds 
