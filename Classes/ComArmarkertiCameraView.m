@@ -246,7 +246,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 				[marker_dic setValue:[[[TiPoint alloc] initWithPoint:marker.moment] autorelease] forKey:@"moment"];
                 
                 // transform
-                NSDictionary *marker_transform = [[[NSDictionary alloc] initWithObjectsAndKeys:
+                NSDictionary *marker_transform = [[NSDictionary alloc] initWithObjectsAndKeys:
                                                   NUMFLOAT(marker.transform->data.fl[0]), @"m11",
                                                   NUMFLOAT(marker.transform->data.fl[1]), @"m12",
                                                   NUMFLOAT(marker.transform->data.fl[2]), @"m13",
@@ -262,7 +262,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
                                                   NUMFLOAT(marker.transform->data.fl[12]),@"m41",
                                                   NUMFLOAT(marker.transform->data.fl[13]),@"m42",
                                                   NUMFLOAT(marker.transform->data.fl[14]),@"m43",
-                                                  NUMFLOAT(marker.transform->data.fl[15]),@"m44",nil] autorelease];
+                                                  NUMFLOAT(marker.transform->data.fl[15]),@"m44",nil];
 
                 [marker_dic setValue:marker_transform forKey:@"transform"];
                 [marker_transform release];
