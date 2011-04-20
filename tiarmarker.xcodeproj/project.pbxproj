@@ -29,11 +29,11 @@
 		31A282C71315EA5900963B0F /* libopencv_calib3d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 31A282C61315EA5900963B0F /* libopencv_calib3d.a */; };
 		31A282C91315EA5900963B0F /* libopencv_core.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 31A282C81315EA5900963B0F /* libopencv_core.a */; };
 		31A282CB1315EA5900963B0F /* libopencv_imgproc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 31A282CA1315EA5900963B0F /* libopencv_imgproc.a */; };
-		31A283081315FA0400963B0F /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31A283071315FA0400963B0F /* Accelerate.framework */; };
 		31A2830A1315FA0400963B0F /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31A283091315FA0400963B0F /* AVFoundation.framework */; };
 		31A2830C1315FA0400963B0F /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31A2830B1315FA0400963B0F /* CoreMedia.framework */; };
 		31A2830E1315FA0400963B0F /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31A2830D1315FA0400963B0F /* CoreVideo.framework */; };
 		31A283101315FA0400963B0F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31A2830F1315FA0400963B0F /* QuartzCore.framework */; };
+		31C3C457135ECC0D00DB7432 /* libopencv_lapack.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 31C3C456135ECC0D00DB7432 /* libopencv_lapack.a */; };
 		31F7991E1315E78C007B9D7D /* ComArmarkertiCameraView.h in Headers */ = {isa = PBXBuildFile; fileRef = 31F799181315E78C007B9D7D /* ComArmarkertiCameraView.h */; };
 		31F7991F1315E78C007B9D7D /* ComArmarkertiCameraView.m in Sources */ = {isa = PBXBuildFile; fileRef = 31F799191315E78C007B9D7D /* ComArmarkertiCameraView.m */; };
 		31F799201315E78C007B9D7D /* ComArmarkertiCameraViewProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 31F7991A1315E78C007B9D7D /* ComArmarkertiCameraViewProxy.h */; };
@@ -63,11 +63,11 @@
 		31A282C61315EA5900963B0F /* libopencv_calib3d.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_calib3d.a; path = opencv_universal/lib/libopencv_calib3d.a; sourceTree = "<group>"; };
 		31A282C81315EA5900963B0F /* libopencv_core.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_core.a; path = opencv_universal/lib/libopencv_core.a; sourceTree = "<group>"; };
 		31A282CA1315EA5900963B0F /* libopencv_imgproc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_imgproc.a; path = opencv_universal/lib/libopencv_imgproc.a; sourceTree = "<group>"; };
-		31A283071315FA0400963B0F /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		31A283091315FA0400963B0F /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		31A2830B1315FA0400963B0F /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		31A2830D1315FA0400963B0F /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		31A2830F1315FA0400963B0F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		31C3C456135ECC0D00DB7432 /* libopencv_lapack.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_lapack.a; path = ../ARMarker/opencv_universal/lib/libopencv_lapack.a; sourceTree = "<group>"; };
 		31F799181315E78C007B9D7D /* ComArmarkertiCameraView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ComArmarkertiCameraView.h; path = Classes/ComArmarkertiCameraView.h; sourceTree = "<group>"; };
 		31F799191315E78C007B9D7D /* ComArmarkertiCameraView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ComArmarkertiCameraView.m; path = Classes/ComArmarkertiCameraView.m; sourceTree = "<group>"; };
 		31F7991A1315E78C007B9D7D /* ComArmarkertiCameraViewProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ComArmarkertiCameraViewProxy.h; path = Classes/ComArmarkertiCameraViewProxy.h; sourceTree = "<group>"; };
@@ -88,11 +88,11 @@
 				31A282C71315EA5900963B0F /* libopencv_calib3d.a in Frameworks */,
 				31A282C91315EA5900963B0F /* libopencv_core.a in Frameworks */,
 				31A282CB1315EA5900963B0F /* libopencv_imgproc.a in Frameworks */,
-				31A283081315FA0400963B0F /* Accelerate.framework in Frameworks */,
 				31A2830A1315FA0400963B0F /* AVFoundation.framework in Frameworks */,
 				31A2830C1315FA0400963B0F /* CoreMedia.framework in Frameworks */,
 				31A2830E1315FA0400963B0F /* CoreVideo.framework in Frameworks */,
 				31A283101315FA0400963B0F /* QuartzCore.framework in Frameworks */,
+				31C3C457135ECC0D00DB7432 /* libopencv_lapack.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -123,7 +123,6 @@
 			isa = PBXGroup;
 			children = (
 				AACBBE490F95108600F1A2B1 /* Foundation.framework */,
-				31A283071315FA0400963B0F /* Accelerate.framework */,
 				31A283091315FA0400963B0F /* AVFoundation.framework */,
 				31A2830B1315FA0400963B0F /* CoreMedia.framework */,
 				31A2830D1315FA0400963B0F /* CoreVideo.framework */,
@@ -152,6 +151,7 @@
 		31F7992C1315E7F4007B9D7D /* OpenCV */ = {
 			isa = PBXGroup;
 			children = (
+				31C3C456135ECC0D00DB7432 /* libopencv_lapack.a */,
 				31A282C61315EA5900963B0F /* libopencv_calib3d.a */,
 				31A282C81315EA5900963B0F /* libopencv_core.a */,
 				31A282CA1315EA5900963B0F /* libopencv_imgproc.a */,
@@ -294,8 +294,10 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/opencv_archived/lib\"",
 					"\"$(SRCROOT)/opencv_universal/lib\"",
+					"\"$(SRCROOT)/../ARMarker/opencv_universal/lib\"",
 				);
 				PRODUCT_NAME = ComArmarkerti;
+				SDKROOT = iphoneos;
 			};
 			name = Debug;
 		};
@@ -319,8 +321,10 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/opencv_archived/lib\"",
 					"\"$(SRCROOT)/opencv_universal/lib\"",
+					"\"$(SRCROOT)/../ARMarker/opencv_universal/lib\"",
 				);
 				PRODUCT_NAME = ComArmarkerti;
+				SDKROOT = iphoneos;
 			};
 			name = Release;
 		};
