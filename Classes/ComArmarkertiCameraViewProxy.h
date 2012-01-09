@@ -3,7 +3,7 @@
 //  tiarmarker
 //
 //  Created by KATAOKA,Atsushi on 11/02/18.
-//  Copyright 2011 Langrise Co.,Ltd. All rights reserved.
+//  Copyright 2011 MARSHMALLOW MACHINE. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 45;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -33,14 +33,13 @@
 		31A2830C1315FA0400963B0F /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31A2830B1315FA0400963B0F /* CoreMedia.framework */; };
 		31A2830E1315FA0400963B0F /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31A2830D1315FA0400963B0F /* CoreVideo.framework */; };
 		31A283101315FA0400963B0F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31A2830F1315FA0400963B0F /* QuartzCore.framework */; };
-		31C3C457135ECC0D00DB7432 /* libopencv_lapack.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 31C3C456135ECC0D00DB7432 /* libopencv_lapack.a */; };
+		31AE454B13B426750060199A /* libopencv_lapack.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 31AE454A13B426750060199A /* libopencv_lapack.a */; };
 		31F7991E1315E78C007B9D7D /* ComArmarkertiCameraView.h in Headers */ = {isa = PBXBuildFile; fileRef = 31F799181315E78C007B9D7D /* ComArmarkertiCameraView.h */; };
 		31F7991F1315E78C007B9D7D /* ComArmarkertiCameraView.m in Sources */ = {isa = PBXBuildFile; fileRef = 31F799191315E78C007B9D7D /* ComArmarkertiCameraView.m */; };
 		31F799201315E78C007B9D7D /* ComArmarkertiCameraViewProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 31F7991A1315E78C007B9D7D /* ComArmarkertiCameraViewProxy.h */; };
 		31F799211315E78C007B9D7D /* ComArmarkertiCameraViewProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 31F7991B1315E78C007B9D7D /* ComArmarkertiCameraViewProxy.m */; };
 		31F799221315E78C007B9D7D /* ComArmarkertiDetector.h in Headers */ = {isa = PBXBuildFile; fileRef = 31F7991C1315E78C007B9D7D /* ComArmarkertiDetector.h */; };
 		31F799231315E78C007B9D7D /* ComArmarkertiDetector.m in Sources */ = {isa = PBXBuildFile; fileRef = 31F7991D1315E78C007B9D7D /* ComArmarkertiDetector.m */; };
-		AA747D9F0F9514B9006C5449 /* JpCoLangriseArmarkerti_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AA747D9E0F9514B9006C5449 /* JpCoLangriseArmarkerti_Prefix.pch */; };
 		AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
 /* End PBXBuildFile section */
 
@@ -67,14 +66,13 @@
 		31A2830B1315FA0400963B0F /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		31A2830D1315FA0400963B0F /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		31A2830F1315FA0400963B0F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		31C3C456135ECC0D00DB7432 /* libopencv_lapack.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_lapack.a; path = ../ARMarker/opencv_universal/lib/libopencv_lapack.a; sourceTree = "<group>"; };
+		31AE454A13B426750060199A /* libopencv_lapack.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_lapack.a; path = ../ARMarker/opencv_universal/lib/libopencv_lapack.a; sourceTree = "<group>"; };
 		31F799181315E78C007B9D7D /* ComArmarkertiCameraView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ComArmarkertiCameraView.h; path = Classes/ComArmarkertiCameraView.h; sourceTree = "<group>"; };
 		31F799191315E78C007B9D7D /* ComArmarkertiCameraView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ComArmarkertiCameraView.m; path = Classes/ComArmarkertiCameraView.m; sourceTree = "<group>"; };
 		31F7991A1315E78C007B9D7D /* ComArmarkertiCameraViewProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ComArmarkertiCameraViewProxy.h; path = Classes/ComArmarkertiCameraViewProxy.h; sourceTree = "<group>"; };
 		31F7991B1315E78C007B9D7D /* ComArmarkertiCameraViewProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ComArmarkertiCameraViewProxy.m; path = Classes/ComArmarkertiCameraViewProxy.m; sourceTree = "<group>"; };
 		31F7991C1315E78C007B9D7D /* ComArmarkertiDetector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ComArmarkertiDetector.h; path = Classes/ComArmarkertiDetector.h; sourceTree = "<group>"; };
 		31F7991D1315E78C007B9D7D /* ComArmarkertiDetector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ComArmarkertiDetector.m; path = Classes/ComArmarkertiDetector.m; sourceTree = "<group>"; };
-		AA747D9E0F9514B9006C5449 /* JpCoLangriseArmarkerti_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JpCoLangriseArmarkerti_Prefix.pch; sourceTree = SOURCE_ROOT; };
 		AACBBE490F95108600F1A2B1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D2AAC07E0554694100DB518D /* libComArmarkerti.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libComArmarkerti.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -92,7 +90,7 @@
 				31A2830C1315FA0400963B0F /* CoreMedia.framework in Frameworks */,
 				31A2830E1315FA0400963B0F /* CoreVideo.framework in Frameworks */,
 				31A283101315FA0400963B0F /* QuartzCore.framework in Frameworks */,
-				31C3C457135ECC0D00DB7432 /* libopencv_lapack.a in Frameworks */,
+				31AE454B13B426750060199A /* libopencv_lapack.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -151,7 +149,7 @@
 		31F7992C1315E7F4007B9D7D /* OpenCV */ = {
 			isa = PBXGroup;
 			children = (
-				31C3C456135ECC0D00DB7432 /* libopencv_lapack.a */,
+				31AE454A13B426750060199A /* libopencv_lapack.a */,
 				31A282C61315EA5900963B0F /* libopencv_calib3d.a */,
 				31A282C81315EA5900963B0F /* libopencv_core.a */,
 				31A282CA1315EA5900963B0F /* libopencv_imgproc.a */,
@@ -162,7 +160,6 @@
 		32C88DFF0371C24200C91783 /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				AA747D9E0F9514B9006C5449 /* JpCoLangriseArmarkerti_Prefix.pch */,
 				24DD6D1B1134B66800162E58 /* titanium.xcconfig */,
 			);
 			name = "Other Sources";
@@ -175,7 +172,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA747D9F0F9514B9006C5449 /* JpCoLangriseArmarkerti_Prefix.pch in Headers */,
 				24DD6CF91134B3F500162E58 /* ComArmarkertiModule.h in Headers */,
 				24DE9E1111C5FE74003F90F6 /* ComArmarkertiModuleAssets.h in Headers */,
 				31F7991E1315E78C007B9D7D /* ComArmarkertiCameraView.h in Headers */,
@@ -209,8 +205,11 @@
 /* Begin PBXProject section */
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
 			buildConfigurationList = 1DEB922208733DC00010E9CD /* Build configuration list for PBXProject "tiarmarker" */;
-			compatibilityVersion = "Xcode 3.1";
+			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
@@ -275,11 +274,13 @@
 			baseConfigurationReference = 24DD6D1B1134B66800162E58 /* titanium.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = (
+					armv6,
+					"$(ARCHS_STANDARD_32_BIT)",
+				);
 				COPY_PHASE_STRIP = NO;
 				DSTROOT = /tmp/ComArmarkerti.dst;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -306,7 +307,10 @@
 			baseConfigurationReference = 24DD6D1B1134B66800162E58 /* titanium.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = (
+					armv6,
+					"$(ARCHS_STANDARD_32_BIT)",
+				);
 				DSTROOT = /tmp/ComArmarkerti.dst;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -332,7 +336,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 24DD6D1B1134B66800162E58 /* titanium.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = (
+					armv6,
+					"$(ARCHS_STANDARD_32_BIT)",
+				);
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -343,8 +350,7 @@
 					"$(TITANIUM_BASE_SDK2)",
 				);
 				OTHER_LDFLAGS = "";
-				PREBINDING = NO;
-				SDKROOT = iphoneos4.2;
+				SDKROOT = iphoneos;
 			};
 			name = Debug;
 		};
@@ -352,7 +358,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 24DD6D1B1134B66800162E58 /* titanium.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = (
+					armv6,
+					"$(ARCHS_STANDARD_32_BIT)",
+				);
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -362,8 +371,7 @@
 					"$(TITANIUM_BASE_SDK2)",
 				);
 				OTHER_LDFLAGS = "";
-				PREBINDING = NO;
-				SDKROOT = iphoneos4.2;
+				SDKROOT = iphoneos;
 			};
 			name = Release;
 		};
@@ -375,6 +383,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				PRODUCT_NAME = "Build & test";
+				TITANIUM_SDK_VERSION = 1.7.1;
 			};
 			name = Debug;
 		};
@@ -384,8 +393,8 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = "Build & test";
+				TITANIUM_SDK_VERSION = 1.7.1;
 				ZERO_LINK = NO;
 			};
 			name = Release;

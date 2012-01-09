@@ -3,100 +3,42 @@
 //  tiarmarker
 //
 //  Created by KATAOKA,Atsushi on 11/02/15.
-//  Copyright 2011 LANGRISE Co.,Ltd. All rights reserved.
+//  Copyright 2011 MARSHMALLOW MACHINE. All rights reserved.
 //
 
 #import "ComArmarkertiDetector.h"
 
-#define MARKER_SIZE			(82)
-#define MARKER_OFFSET		(8)
-#define MARKER_CELL_SIZE	(11)
-
-static float intrinsic_values[] = {
-    2.63201147e+03, 0.,             1.18882300e+03, 
-    0.,             2.68470044e+03, 1.01778882e+03,
-    0.,             0.,             1.
-};	
-
-static float distortion_values[] = {
-    -8.89522210e-02, 1.18418604e-01, -1.61491688e-02, 6.88027870e-03
-};
+#define MARKER_SIZE             (82)
+#define MARKER_OFFSET           (8)
+#define MARKER_CELL_SIZE        (11)
+#define MARKER_THRESHOLD        (55)
+#define CONTOURSIMG_INTERLACE   (1)
 
 @implementation Marker
 @synthesize code;
-@synthesize moment;
+@synthesize rotation_x;
+@synthesize rotation_y;
+@synthesize rotation_z;
+@synthesize translation_x;
+@synthesize translation_y;
+@synthesize translation_z;
 @synthesize transform;
 
-- (id)init
-{
-    self = [super init];
-    if(self)
-    {
-        transform = cvCreateMat(4, 4, CV_32FC1);
-    }
-    return self;
-}
-
-- (void)setRotation:(CvMat *)rotationVec andTranslation:(CvMat *)translationVec
-{
-    CvMat *intrinsic = cvCreateMat(3, 3, CV_32FC1);
-    CvMat *temp = cvCreateMat(3, 4, CV_32FC1);
-    CvMat *rotation = cvCreateMat(3, 3, CV_32FC1);    
-
-    cvRodrigues2(rotationVec, rotation, NULL);
-    
-    float z = translationVec->data.fl[2];
-    if(z == 0.0f){ z = 1.0f; }
-    
-    for(int i = 0; i < 3; i++)
-    {
-        for(int j = 0; j < 3; j++)
-        {
-            temp->data.fl[i * 4 + j] = rotation->data.fl[i * 3 + j];
-        }
-    }
-    
-    for(int i = 0; i < 3 * 3; i++)
-    {
-        intrinsic->data.fl[i] = intrinsic_values[i] / z;
-    }
-    
-    cvmMul(intrinsic, temp, temp);
-    
-    temp->data.fl[4*0+3] = translationVec->data.fl[0]; // m41
-    temp->data.fl[4*1+3] = translationVec->data.fl[1]; // m42 
-    temp->data.fl[4*2+3] = 1.0f;                       // m43
-    
-    for(int row = 0; row < 3; row++)
-    {
-        for(int col = 0; col < 4; col++)
-        {
-            transform->data.fl[row*4+col] = temp->data.fl[row*4+col];
-        }
-    }
-    
-    transform->data.fl[4*3+0] = 0;    // m14
-    transform->data.fl[4*3+1] = 0;    // m24
-    transform->data.fl[4*3+2] = 1/z;  // m34
-    transform->data.fl[4*3+3] = 1;    // m44
-    
-    cvTranspose(transform, transform);
-    
-    cvReleaseMat(&intrinsic);
-    cvReleaseMat(&temp);
-    cvReleaseMat(&rotation);
-}
+static float intrinsic_values[9];
+static float distortion_values[4] = { 0.f, 0.f, 0.f, 0.f };
 
 - (void)dealloc
 {
-    cvReleaseMat(&transform);
     [super dealloc];
 }
-
 @end
 
 @implementation ComArmarkertiDetector
-- (id)initWithCGSize:(CGSize)size
+
+- (id)initWithCGSize:(CGSize)size 
+      andFocalLength:(float)focalLength 
+               andFx:(float)fx 
+               andFy:(float)fy;
 {
 	self = [super init];
 	if(self)
@@ -104,51 +46,102 @@ static float distortion_values[] = {
 		imageSize = size;
 		contourStrage = cvCreateMemStorage(0);
 		polyStrage = cvCreateMemStorage(0);
-  
+        
+        intrinsic_values[0] = size.width*focalLength/fx;
+        intrinsic_values[1] = 0.0f;
+        intrinsic_values[2] = size.width/2.0f;
+        intrinsic_values[3] = 0.0f;
+        intrinsic_values[4] = size.height*focalLength/fy;
+        intrinsic_values[5] = size.height/2.0f;
+        intrinsic_values[6] = 0.0f;
+        intrinsic_values[7] = 0.0f;
+        intrinsic_values[8] = 1.0f;
+        
+        intrinsic = cvCreateMat(3, 3, CV_32FC1);
+        for(int i = 0; i < 3 * 3; i++){
+            intrinsic->data.fl[i] = intrinsic_values[i];
+        }
+        
+        distortion = cvCreateMat(1, 4, CV_32FC1);
+        for(int i = 0; i < 4; i++){
+            distortion->data.fl[i] = distortion_values[i];
+        }
+        
 		binaryImage = cvCreateImage(cvSize(size.width, size.height), IPL_DEPTH_8U, 1);
-		contourImage = cvCreateImage(cvSize(size.width, size.height), IPL_DEPTH_8U, 1);
-		detectedImage = cvCreateImage(cvSize(size.width, size.height), IPL_DEPTH_8U, 4);
-	}
+		contourImage = cvCreateImage(cvSize((int)size.width >> CONTOURSIMG_INTERLACE,
+                                            (int)size.height >> CONTOURSIMG_INTERLACE),
+                                     IPL_DEPTH_8U, 
+                                     1);
+    }
 	return self;
 }
 
 - (void)dealloc
 {
 	cvReleaseMemStorage(&contourStrage);
-	cvReleaseMemStorage(&polyStrage);	
-    cvReleaseImage(&binaryImage);
+	cvReleaseMemStorage(&polyStrage);
+	cvReleaseMat(&intrinsic);
+    cvReleaseMat(&distortion);
+	cvReleaseImage(&binaryImage);
 	cvReleaseImage(&contourImage);
-	cvReleaseImage(&detectedImage);
 	[super dealloc];
 }
 
-#pragma mark OpenCV Support Methods
-
 #pragma mark -
-- (BOOL)detect:(IplImage *)image inRect:(CGRect)rect
+- (BOOL)detect:(IplImage *)image inRect:(CGRect)rect withHomography:(CvMat *)homography
 {
-	CvSize sz = cvGetSize(image);
-
     int cx = rect.origin.x + rect.size.width / 2;
-    int cy = rect.origin.y + rect.size.height / 2;
+    int cy = rect.origin.y + rect.size.height /2;
     
-    for(int y = -2; y <= 2; y++){
-        for(int x = -2; x <= 2; x++){
-            uchar *p = (uchar *)image->imageData + (sz.width - (cx + x)) + (sz.height-(cy + y)) * image->widthStep;
-            if(*p < 10)
-            {
-                return false;
-            }
-        }
-    }
-    return true;
+    float x = homography->data.fl[0]*cx + homography->data.fl[1]*cy + homography->data.fl[2];
+    float y = homography->data.fl[3]*cx + homography->data.fl[4]*cy + homography->data.fl[5];
+    float w = homography->data.fl[6]*cx + homography->data.fl[7]*cy + homography->data.fl[8];
+    cx = (int)(x / w);
+    cy = (int)(y / w);
+    
+    uchar *p = (uchar *)image->imageData + cx + cy * image->widthStep;
+    
+    return *p > 1;    
 }
 
-- (int)decode:(IplImage *)image degree:(int *)degree
-{	
-	double p1 = MARKER_OFFSET;
-	double p2 = MARKER_SIZE - MARKER_CELL_SIZE - MARKER_OFFSET;
+- (CvMat *)createHomographyMatrix:(CvPoint *)src To:(CvPoint *)dst
+{
+	CvMat srcMat;
+	CvMat dstMat;
+    
+	float dstPoints[4 * 2];
+	float srcPoints[4 * 2];
+	for(int n = 0; n < 4; n++)
+	{
+		srcPoints[n * 2 + 0] = src[n].x;
+		srcPoints[n * 2 + 1] = src[n].y;
+        
+        dstPoints[n * 2 + 0] = dst[n].x;
+        dstPoints[n * 2 + 1] = dst[n].y;
+	}
+	srcMat = cvMat(4, 2, CV_32FC1, srcPoints);
+	dstMat = cvMat(4, 2, CV_32FC1, dstPoints);
 	
+	CvMat *mapMatrix = cvCreateMat(3, 3, CV_32FC1);
+    
+	cvFindHomography(&srcMat, &dstMat, mapMatrix, 0, 0, 0);
+  	
+	return mapMatrix;
+}
+
+- (int)decodeMarker:(CvPoint *)cornerPoints degreeIs:(int *)degree
+{	
+	float p1 = MARKER_OFFSET;
+	float p2 = MARKER_SIZE - MARKER_CELL_SIZE - MARKER_OFFSET;
+	
+    CvPoint src[4] = {
+        {0,             0},
+        {MARKER_SIZE,   0},
+        {MARKER_SIZE,   MARKER_SIZE },
+        {0,             MARKER_SIZE } 
+    };
+    CvMat *homography = (CvMat *)[self createHomographyMatrix:src To:cornerPoints];
+    
 	CGPoint corners[4]; 
 	corners[0] = CGPointMake(p1, p1);
 	corners[1] = CGPointMake(p2, p1);
@@ -162,7 +155,7 @@ static float distortion_values[] = {
 							  corners[i].y, 
 							  MARKER_CELL_SIZE, 
 							  MARKER_CELL_SIZE);
-		if([self detect:image inRect:r])
+		if([self detect:binaryImage inRect:r withHomography:homography])
 		{
 			*degree = i * 90;
 			break;
@@ -171,6 +164,7 @@ static float distortion_values[] = {
 	
 	if(*degree < 0)
 	{ 
+        cvReleaseMat(&homography);
 		return -1; 
 	}
 	
@@ -182,8 +176,9 @@ static float distortion_values[] = {
 		{
 			sx = MARKER_OFFSET + MARKER_CELL_SIZE + x * MARKER_CELL_SIZE;
 			sy = MARKER_OFFSET + MARKER_CELL_SIZE + y * MARKER_CELL_SIZE;
-			if([self detect:image
-					 inRect:CGRectMake(sx, sy, MARKER_CELL_SIZE, MARKER_CELL_SIZE)])
+			if([self detect:binaryImage
+					 inRect:CGRectMake(sx, sy, MARKER_CELL_SIZE, MARKER_CELL_SIZE)
+             withHomography:homography])
 			{		
 				//NSLog(@"marked at (%d,%d)", x, y);
 				switch(*degree){
@@ -203,86 +198,72 @@ static float distortion_values[] = {
 			}
 		}
 	}	
-	//NSLog(@"detected deg=%d code=%x", degree, code);
+    
+    cvReleaseMat(&homography);
+	//NSLog(@"detected deg=%d code=%x", *degree, code);
 	return code;
 }
-								   
-- (void)binarizeCGImageRef:(CGImageRef)src toIplImage:(IplImage *)dest
+	
+- (void)binarize:(uint8_t *)rgba
 {
-	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceGray();
-	CGContextRef contextRef = CGBitmapContextCreate(binaryImage->imageData, 
-													binaryImage->width, 
-													binaryImage->height,
-													binaryImage->depth, 
-													binaryImage->widthStep,
-													colorSpace, 
-													kCGBitmapByteOrderDefault);
-	CGContextDrawImage(contextRef, 
-					   CGRectMake(0, 0, CGImageGetWidth(src), CGImageGetHeight(src)), 
-					   src);
-	
-	cvSmooth(dest, dest, CV_GAUSSIAN, 3, 0, 0, 0);
-	cvThreshold(dest, dest, 0, 255, CV_THRESH_BINARY | CV_THRESH_OTSU);
-	cvNot(dest, dest);
-	
-	CGContextRelease(contextRef);	
-	CGColorSpaceRelease(colorSpace);
+    CvSize size = { imageSize.width, imageSize.height };
+    
+    IplImage *src = cvCreateImageHeader(size, IPL_DEPTH_8U, 4);
+    src->imageData = (char *)rgba;
+    
+    IplImage *dst = binaryImage;
+#ifdef _ARM_ARCH_7
+    int pixels = size.width * size.height;
+    char *src_ptr, *dst_ptr;
+    
+    src_ptr = src->imageData;
+    dst_ptr = dst->imageData;
+    
+    __asm__ volatile (
+        "lsr %2, %2, #3;"
+        "mov r4, #77;"
+        "mov r5, #151;"
+        "mov r6, #28;"
+        "vdup.8 d4, r4;"
+        "vdup.8 d5, r5;"
+        "vdup.8 d6, r6;"
+        "vmov.u8 d8, #128;"
+        "0:;"
+        // load 8pixels
+        "vld4.8 {d0-d3},[%1]!;"
+        // gray scaling
+        "vmull.u8 q7, d0, d4;"
+        "vmlal.u8 q7, d1, d5;"
+        "vmlal.u8 q7, d2, d6;"
+        "vshrn.u16 d7, q7, #8;"
+        // binarize (threshold is 128)
+        "vcge.u8 d7, d8, d7;"
+        "vst1.8 {d7},[%0]!;"	        
+        // next 8pixels
+        "subs %2,%2,#1;"
+        "bne 0b;"
+        :
+        :"r"(dst_ptr),"r"(src_ptr),"r"(pixels)
+        :"r4","r5","r6"
+    );
+#else
+    cvCvtColor(src, dst, CV_RGBA2GRAY);
+    cvThreshold(dst, dst, 128, 255, CV_THRESH_BINARY_INV);
+#endif    
+    
+    cvReleaseImageHeader(&src);
 }
 
-- (IplImage *)perspectivedMarkerImage:(IplImage *)image withFourPoints:(CvPoint *)points
+- (NSArray *)detect:(uint8_t *)rgba
 {
-	IplImage *markerImage = cvCreateImage(cvSize(MARKER_SIZE, MARKER_SIZE), IPL_DEPTH_8U, 1);
-
-	CvMat srcMat;
-	double srcPoints[4 * 2];
-	for(int n = 0; n < 4; n++)
-	{
-		srcPoints[n * 2 + 0] = points[n].x;
-		srcPoints[n * 2 + 1] = points[n].y;
-	}
-	srcMat = cvMat(4, 2, CV_64FC1, srcPoints);
-	
-	CvMat dstMat;
-	double dstPoints[4 * 2];
-	dstPoints[0] = 0;			dstPoints[1] = 0;
-	dstPoints[2] = MARKER_SIZE;	dstPoints[3] = 0;
-	dstPoints[4] = MARKER_SIZE;	dstPoints[5] = MARKER_SIZE;
-	dstPoints[6] = 0;			dstPoints[7] = MARKER_SIZE;
-	dstMat = cvMat(4, 2, CV_64FC1, dstPoints);
-	
-	CvMat *mapMatrix = cvCreateMat(3, 3, CV_64FC1);
-
-	cvFindHomography(&srcMat, &dstMat, mapMatrix, 0, 0, 0);
-	
-	cvWarpPerspective(image, 
-					  markerImage, 
-					  mapMatrix, 
-					  CV_INTER_LINEAR+CV_WARP_FILL_OUTLIERS, 
-					  cvScalarAll(0));
-	
-	cvReleaseMat(&mapMatrix);
-	
-	return markerImage;
-}
-
-- (NSArray *)detectWithinCGImageRef:(CGImageRef)image
-{
-    CvMat intrinsic, distortion;
-    cvInitMatHeader(&intrinsic, 3, 3, CV_32FC1, intrinsic_values, CV_AUTOSTEP);
-    cvInitMatHeader(&distortion,1, 4, CV_32FC1, distortion_values, CV_AUTOSTEP);
-
 	NSMutableArray *result = [[[NSMutableArray alloc] init] autorelease];
 
-	// 2値画像を生成する
-	[self binarizeCGImageRef:image toIplImage:binaryImage];
-
-	// 輪郭画像は2値画像のコピー
-	cvCopy(binaryImage, contourImage, NULL);
+	// generate binary image
+    [self binarize:rgba];
+    
+    cvResize(binaryImage, contourImage, CV_INTER_NN);
 	
-	// デバッグ用画像は２値画像をRGBA形式に変換しておく
-	cvCvtColor(binaryImage, detectedImage, CV_GRAY2RGBA);
-	
-	// 輪郭を抽出する
+	// find contours
 	CvSeq *firstContour = NULL;
 	cvClearMemStorage(contourStrage);
 	int contourCount = cvFindContours(contourImage, 
@@ -293,14 +274,14 @@ static float distortion_values[] = {
 									  CV_CHAIN_APPROX_SIMPLE, 
 									  cvPoint(0,0));
 	
-	// 輪郭を検出しなかった
+	// contours not found
 	if(contourCount <= 0)
 	{
 		return nil;
 	}
-	
+
 	for(CvSeq *s = firstContour; s != NULL; s = s->h_next)
-	{
+	{        
 		if(s->v_next != NULL)
 		{
 			// 輪郭をポリライン近似する
@@ -309,7 +290,7 @@ static float distortion_values[] = {
 									  sizeof(CvContour),
 									  polyStrage,
 									  CV_POLY_APPROX_DP,
-									  8,
+									  4,
 									  0);
 			// 輪郭の形状が四角形である
 			if(vsp->total == 4)
@@ -319,65 +300,35 @@ static float distortion_values[] = {
 				for(int n = 0; n < 4; n++)
 				{
 					p[n] = *CV_GET_SEQ_ELEM(CvPoint, vsp, n);
+                    p[n].x = p[n].x << CONTOURSIMG_INTERLACE;
+                    p[n].y = p[n].y << CONTOURSIMG_INTERLACE;
 				}
-				IplImage *markerImage = [self perspectivedMarkerImage:binaryImage
-													   withFourPoints:p];
-									
+                
 				// マーカー画像からコードを検出する
 				int degree;
-				int code = [self decode:markerImage degree:&degree];
+				int code = [self decodeMarker:p degreeIs:&degree];
 				if(code >= 0)
 				{
-					cvDrawContours(detectedImage, 
-								   s->v_next, 
-								   cvScalar(255,0,255,255), 
-								   cvScalar(255,255,0,255), 
-								   1, 
-								   2, 
-								   CV_AA, 
-								   cvPoint (0, 0));
-					
-					CvPoint3D32f baseMarkerPoints[4];					
-					baseMarkerPoints[0].x =(float)0 * MARKER_SIZE;
-					baseMarkerPoints[0].y =(float)0 * MARKER_SIZE;
+					CvPoint3D32f baseMarkerPoints[4];		
+
+					baseMarkerPoints[0].x =(float)-1 * MARKER_SIZE/2;
+					baseMarkerPoints[0].y =(float)-1 * MARKER_SIZE/2;
 					baseMarkerPoints[0].z = 0.0;
 					
-					baseMarkerPoints[1].x =(float)1 * MARKER_SIZE;
-					baseMarkerPoints[1].y =(float)0 * MARKER_SIZE;
+					baseMarkerPoints[1].x =(float) 1 * MARKER_SIZE/2;
+					baseMarkerPoints[1].y =(float)-1 * MARKER_SIZE/2;
 					baseMarkerPoints[1].z = 0.0;
 					
-					baseMarkerPoints[2].x =(float)1 * MARKER_SIZE;
-					baseMarkerPoints[2].y =(float)1 * MARKER_SIZE;
+					baseMarkerPoints[2].x =(float) 1 * MARKER_SIZE/2;
+					baseMarkerPoints[2].y =(float) 1 * MARKER_SIZE/2;
 					baseMarkerPoints[2].z = 0.0;
 					
-					baseMarkerPoints[3].x =(float)0 * MARKER_SIZE;
-					baseMarkerPoints[3].y =(float)1 * MARKER_SIZE;
+					baseMarkerPoints[3].x =(float)-1 * MARKER_SIZE/2;
+					baseMarkerPoints[3].y =(float) 1 * MARKER_SIZE/2;
 					baseMarkerPoints[3].z = 0.0;
-					
+
 					CvPoint2D32f src_pnt[4];
 					if(degree==0)
-					{
-						src_pnt[0].x=p[2].x;
-						src_pnt[0].y=p[2].y;
-						src_pnt[1].x=p[3].x;
-						src_pnt[1].y=p[3].y;
-						src_pnt[2].x=p[0].x;
-						src_pnt[2].y=p[0].y;
-						src_pnt[3].x=p[1].x;
-						src_pnt[3].y=p[1].y;
-					}
-					if(degree==90)
-					{
-						src_pnt[0].x=p[3].x;
-						src_pnt[0].y=p[3].y;
-						src_pnt[1].x=p[0].x;
-						src_pnt[1].y=p[0].y;
-						src_pnt[2].x=p[1].x;
-						src_pnt[2].y=p[1].y;
-						src_pnt[3].x=p[2].x;
-						src_pnt[3].y=p[2].y;
-					}
-					if(degree==180)
 					{
 						src_pnt[0].x=p[0].x;
 						src_pnt[0].y=p[0].y;
@@ -388,7 +339,8 @@ static float distortion_values[] = {
 						src_pnt[3].x=p[3].x;
 						src_pnt[3].y=p[3].y;
 					}
-					if(degree==270)
+                    
+					if(degree==90)
 					{
 						src_pnt[0].x=p[1].x;
 						src_pnt[0].y=p[1].y;
@@ -399,112 +351,65 @@ static float distortion_values[] = {
 						src_pnt[3].x=p[0].x;
 						src_pnt[3].y=p[0].y;
 					}
+                    
+					if(degree==180)
+					{
+						src_pnt[0].x=p[2].x;
+						src_pnt[0].y=p[2].y;
+						src_pnt[1].x=p[3].x;
+						src_pnt[1].y=p[3].y;
+						src_pnt[2].x=p[0].x;
+						src_pnt[2].y=p[0].y;
+						src_pnt[3].x=p[1].x;
+						src_pnt[3].y=p[1].y;
+					}
+                    
+					if(degree==270)
+					{
+						src_pnt[0].x=p[3].x;
+						src_pnt[0].y=p[3].y;
+						src_pnt[1].x=p[0].x;
+						src_pnt[1].y=p[0].y;
+						src_pnt[2].x=p[1].x;
+						src_pnt[2].y=p[1].y;
+						src_pnt[3].x=p[2].x;
+						src_pnt[3].y=p[2].y;
+					}
 					
 					CvMat object_points;
 					CvMat image_points;
-					CvMat *rotation = cvCreateMat(1, 3, CV_32FC1);
-					CvMat *translation = cvCreateMat(1 , 3, CV_32FC1);
-					CvMat *srcPoints3D = cvCreateMat(4, 1, CV_32FC3);
-					CvMat *dstPoints2D = cvCreateMat(4, 1, CV_32FC3);
-
-					srcPoints3D->data.fl[0]  = 0;
-					srcPoints3D->data.fl[1]  = 0;
-					srcPoints3D->data.fl[2]  = 0;
-					srcPoints3D->data.fl[3]  = (float)MARKER_SIZE;
-					srcPoints3D->data.fl[4]  = 0;
-					srcPoints3D->data.fl[5]  = 0;
-					srcPoints3D->data.fl[6]  = 0;
-					srcPoints3D->data.fl[7]  = (float)MARKER_SIZE;
-					srcPoints3D->data.fl[8]  = 0;
-					srcPoints3D->data.fl[9]  = 0;
-					srcPoints3D->data.fl[10] = 0;
-					srcPoints3D->data.fl[11] = -(float)MARKER_SIZE;;
-
+					CvMat *rotation     = cvCreateMat(1, 3, CV_32FC1);
+					CvMat *translation  = cvCreateMat(1, 3, CV_32FC1);
+					CvMat *srcPoints3D  = cvCreateMat(4, 1, CV_32FC3);
+					CvMat *dstPoints2D  = cvCreateMat(4, 1, CV_32FC2);
+                    
 					cvInitMatHeader(&image_points, 4, 1, CV_32FC2, src_pnt, CV_AUTOSTEP);
-					cvInitMatHeader(&object_points, 4, 3, CV_32FC1, baseMarkerPoints, CV_AUTOSTEP);
+					cvInitMatHeader(&object_points, 4, 1, CV_32FC3, baseMarkerPoints, CV_AUTOSTEP);
 					
-					cvFindExtrinsicCameraParams2(&object_points,
-                                                 &image_points,
-                                                 &intrinsic,
-                                                 &distortion,
-                                                 rotation,
-                                                 translation,
-                                                 0);	
+                	cvFindExtrinsicCameraParams2(&object_points,&image_points,intrinsic,distortion,rotation,translation,0);	
                     
-					cvProjectPoints2(srcPoints3D,
-                                     rotation,
-                                     translation,
-                                     &intrinsic,
-                                     &distortion,
-                                     dstPoints2D,
-                                     NULL,
-                                     NULL,
-                                     NULL,
-                                     NULL,
-                                     NULL,
-                                     0);					
-
 					Marker *m = [[[Marker alloc] init] autorelease];
+                    
 					m.code = code;
-					
-                    m.moment = CGPointMake((p[0].x + p[1].x + p[2].x + p[3].x) / 4,
-										   (p[0].y + p[1].y + p[2].y + p[3].y) / 4);
+
+                    m.rotation_x = rotation->data.fl[0];
+                    m.rotation_y = rotation->data.fl[1];
+                    m.rotation_z = rotation->data.fl[2];
                     
-                    translation->data.fl[0] = m.moment.x;
-                    translation->data.fl[1] = m.moment.y;
+                    m.translation_x = translation->data.fl[0];
+                    m.translation_y = translation->data.fl[1];
+                    m.translation_z = translation->data.fl[2];
                     
-                    [m setRotation:rotation andTranslation:translation];
-                    
-                    CvPoint pt1 = cvPoint(dstPoints2D->data.fl[0], dstPoints2D->data.fl[1]);
-                    CvPoint pt2;
-                    for(int i = 1; i < 4; i++){
-                        pt2 = cvPoint(dstPoints2D->data.fl[i*3+0], dstPoints2D->data.fl[i*3+1]);
-                        cvLine(detectedImage, pt1, pt2, cvScalar(i==1?255:0, i==2?255:0, i==3?255:0, 255), 2, 8, 0);
-                    }
-                    
-					cvReleaseMat(&rotation);
+                    cvReleaseMat(&rotation);
 					cvReleaseMat(&translation);
 					cvReleaseMat(&srcPoints3D);
 					cvReleaseMat(&dstPoints2D);
-					
-					[result addObject:m];
-				}
-				
-				cvReleaseImage(&markerImage);
+                    
+                    [result addObject:m];
+                }
 			}
 		}
 	}
-	
-	return result;
+    return result;
 }
-
-- (void)drawDetectedImage:(CGContextRef)context rect:(CGRect)rect
-{
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	NSData *data = [NSData dataWithBytes:detectedImage->imageData
-								  length:detectedImage->imageSize];
-	
-	CGDataProviderRef provider = CGDataProviderCreateWithCFData((CFDataRef)data);
-	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-
-	CGImageRef imageRef = CGImageCreate(detectedImage->width,
-										detectedImage->height,
-										detectedImage->depth,
-										detectedImage->depth * detectedImage->nChannels,
-										detectedImage->widthStep,
-										colorSpace,
-										kCGBitmapByteOrderDefault,
-										provider,
-										NULL,
-										false,
-										kCGImageAlphaLast | kCGRenderingIntentDefault);
-	CGContextDrawImage(context, rect, imageRef);
-
-	CGDataProviderRelease(provider);
-	CGColorSpaceRelease(colorSpace);
-	CGImageRelease(imageRef);
-	
-	[pool release];
-}
-
 @end

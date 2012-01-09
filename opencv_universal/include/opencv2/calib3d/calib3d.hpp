@@ -62,14 +62,14 @@ CVAPI(CvPOSITObject*)  cvCreatePOSITObject( CvPoint3D32f* points, int point_coun
 /* Runs POSIT (POSe from ITeration) algorithm for determining 3d position of
    an object given its model and projection in a weak-perspective case */
 CVAPI(void)  cvPOSIT(  CvPOSITObject* posit_object, CvPoint2D32f* image_points,
-                       double focal_length, CvTermCriteria criteria,
+                       float focal_length, CvTermCriteria criteria,
                        float* rotation_matrix, float* translation_vector);
 
 /* Releases CvPOSITObject structure */
 CVAPI(void)  cvReleasePOSITObject( CvPOSITObject**  posit_object );
 
 /* updates the number of RANSAC iterations */
-CVAPI(int) cvRANSACUpdateNumIters( double p, double err_prob,
+CVAPI(int) cvRANSACUpdateNumIters( float p, float err_prob,
                                    int model_points, int max_iters );
 
 CVAPI(void) cvConvertPointsHomogeneous( const CvMat* src, CvMat* dst );
@@ -89,7 +89,7 @@ CVAPI(void) cvConvertPointsHomogeneous( const CvMat* src, CvMat* dst );
 CVAPI(int) cvFindFundamentalMat( const CvMat* points1, const CvMat* points2,
                                  CvMat* fundamental_matrix,
                                  int method CV_DEFAULT(CV_FM_RANSAC),
-                                 double param1 CV_DEFAULT(3.), double param2 CV_DEFAULT(0.99),
+                                 float param1 CV_DEFAULT(3.), float param2 CV_DEFAULT(0.99),
                                  CvMat* status CV_DEFAULT(NULL) );
 
 /* For each input point on one of images
@@ -116,7 +116,7 @@ CVAPI(void) cvCorrectMatches(CvMat* F, CvMat* points1, CvMat* points2,
 */
 CVAPI(void) cvGetOptimalNewCameraMatrix( const CvMat* camera_matrix,
                                          const CvMat* dist_coeffs,
-                                         CvSize image_size, double alpha,
+                                         CvSize image_size, float alpha,
                                          CvMat* new_camera_matrix,
                                          CvSize new_imag_size CV_DEFAULT(cvSize(0,0)),
                                          CvRect* valid_pixel_ROI CV_DEFAULT(0) );
@@ -130,7 +130,7 @@ CVAPI(int) cvFindHomography( const CvMat* src_points,
                              const CvMat* dst_points,
                              CvMat* homography,
                              int method CV_DEFAULT(0),
-                             double ransacReprojThreshold CV_DEFAULT(3),
+                             float ransacReprojThreshold CV_DEFAULT(3),
                              CvMat* mask CV_DEFAULT(0));
 
 /* Computes RQ decomposition for 3x3 matrices */
@@ -138,7 +138,7 @@ CVAPI(void) cvRQDecomp3x3( const CvMat *matrixM, CvMat *matrixR, CvMat *matrixQ,
                            CvMat *matrixQx CV_DEFAULT(NULL),
                            CvMat *matrixQy CV_DEFAULT(NULL),
                            CvMat *matrixQz CV_DEFAULT(NULL),
-                           CvPoint3D64f *eulerAngles CV_DEFAULT(NULL));
+                           CvPoint3D32f *eulerAngles CV_DEFAULT(NULL));
 
 /* Computes projection matrix decomposition */
 CVAPI(void) cvDecomposeProjectionMatrix( const CvMat *projMatr, CvMat *calibMatr,
@@ -146,7 +146,7 @@ CVAPI(void) cvDecomposeProjectionMatrix( const CvMat *projMatr, CvMat *calibMatr
                                          CvMat *rotMatrX CV_DEFAULT(NULL),
                                          CvMat *rotMatrY CV_DEFAULT(NULL),
                                          CvMat *rotMatrZ CV_DEFAULT(NULL),
-                                         CvPoint3D64f *eulerAngles CV_DEFAULT(NULL));
+                                         CvPoint3D32f *eulerAngles CV_DEFAULT(NULL));
 
 /* Computes d(AB)/dA and d(AB)/dB */
 CVAPI(void) cvCalcMatMulDeriv( const CvMat* A, const CvMat* B, CvMat* dABdA, CvMat* dABdB );
@@ -169,7 +169,7 @@ CVAPI(void) cvProjectPoints2( const CvMat* object_points, const CvMat* rotation_
                               CvMat* dpdrot CV_DEFAULT(NULL), CvMat* dpdt CV_DEFAULT(NULL),
                               CvMat* dpdf CV_DEFAULT(NULL), CvMat* dpdc CV_DEFAULT(NULL),
                               CvMat* dpddist CV_DEFAULT(NULL),
-                              double aspect_ratio CV_DEFAULT(0));
+                              float aspect_ratio CV_DEFAULT(0));
 
 /* Finds extrinsic camera parameters from
    a few known corresponding point pairs and intrinsic parameters */
@@ -187,7 +187,7 @@ CVAPI(void) cvInitIntrinsicParams2D( const CvMat* object_points,
                                      const CvMat* image_points,
                                      const CvMat* npoints, CvSize image_size,
                                      CvMat* camera_matrix,
-                                     double aspect_ratio CV_DEFAULT(1.) );
+                                     float aspect_ratio CV_DEFAULT(1.) );
 
 #define CV_CALIB_CB_ADAPTIVE_THRESH  1
 #define CV_CALIB_CB_NORMALIZE_IMAGE  2
@@ -229,7 +229,7 @@ CVAPI(void) cvDrawChessboardCorners( CvArr* image, CvSize pattern_size,
 
 /* Finds intrinsic and extrinsic camera parameters
    from a few views of known calibration pattern */
-CVAPI(double) cvCalibrateCamera2( const CvMat* object_points,
+CVAPI(float) cvCalibrateCamera2( const CvMat* object_points,
                                 const CvMat* image_points,
                                 const CvMat* point_counts,
                                 CvSize image_size,
@@ -243,13 +243,13 @@ CVAPI(double) cvCalibrateCamera2( const CvMat* object_points,
    cvCalibrateCamera2 */
 CVAPI(void) cvCalibrationMatrixValues( const CvMat *camera_matrix,
                                 CvSize image_size,
-                                double aperture_width CV_DEFAULT(0),
-                                double aperture_height CV_DEFAULT(0),
-                                double *fovx CV_DEFAULT(NULL),
-                                double *fovy CV_DEFAULT(NULL),
-                                double *focal_length CV_DEFAULT(NULL),
-                                CvPoint2D64f *principal_point CV_DEFAULT(NULL),
-                                double *pixel_aspect_ratio CV_DEFAULT(NULL));
+                                float aperture_width CV_DEFAULT(0),
+                                float aperture_height CV_DEFAULT(0),
+                                float *fovx CV_DEFAULT(NULL),
+                                float *fovy CV_DEFAULT(NULL),
+                                float *focal_length CV_DEFAULT(NULL),
+                                CvPoint2D32f *principal_point CV_DEFAULT(NULL),
+                                float *pixel_aspect_ratio CV_DEFAULT(NULL));
 
 #define CV_CALIB_FIX_INTRINSIC  256
 #define CV_CALIB_SAME_FOCAL_LENGTH 512
@@ -257,7 +257,7 @@ CVAPI(void) cvCalibrationMatrixValues( const CvMat *camera_matrix,
 /* Computes the transformation from one camera coordinate system to another one
    from a few correspondent views of the same calibration target. Optionally, calibrates
    both cameras */
-CVAPI(double) cvStereoCalibrate( const CvMat* object_points, const CvMat* image_points1,
+CVAPI(float) cvStereoCalibrate( const CvMat* object_points, const CvMat* image_points1,
                                const CvMat* image_points2, const CvMat* npoints,
                                CvMat* camera_matrix1, CvMat* dist_coeffs1,
                                CvMat* camera_matrix2, CvMat* dist_coeffs2,
@@ -277,7 +277,7 @@ CVAPI(void) cvStereoRectify( const CvMat* camera_matrix1, const CvMat* camera_ma
                              CvMat* R1, CvMat* R2, CvMat* P1, CvMat* P2,
                              CvMat* Q CV_DEFAULT(0),
                              int flags CV_DEFAULT(CV_CALIB_ZERO_DISPARITY),
-                             double alpha CV_DEFAULT(-1),
+                             float alpha CV_DEFAULT(-1),
                              CvSize new_image_size CV_DEFAULT(cvSize(0,0)),
                              CvRect* valid_pix_ROI1 CV_DEFAULT(0),
                              CvRect* valid_pix_ROI2 CV_DEFAULT(0));
@@ -287,7 +287,7 @@ CVAPI(void) cvStereoRectify( const CvMat* camera_matrix1, const CvMat* camera_ma
 CVAPI(int) cvStereoRectifyUncalibrated( const CvMat* points1, const CvMat* points2,
                                         const CvMat* F, CvSize img_size,
                                         CvMat* H1, CvMat* H2,
-                                        double threshold CV_DEFAULT(5));
+                                        float threshold CV_DEFAULT(5));
 
 
 
@@ -404,7 +404,7 @@ public:
               cvTermCriteria(CV_TERMCRIT_EPS+CV_TERMCRIT_ITER,30,DBL_EPSILON),
               bool completeSymmFlag=false );
     bool update( const CvMat*& param, CvMat*& J, CvMat*& err );
-    bool updateAlt( const CvMat*& param, CvMat*& JtJ, CvMat*& JtErr, double*& errNorm );
+    bool updateAlt( const CvMat*& param, CvMat*& JtJ, CvMat*& JtErr, float*& errNorm );
     
     void clear();
     void step();
@@ -420,7 +420,7 @@ public:
     cv::Ptr<CvMat> JtErr;
     cv::Ptr<CvMat> JtJV;
     cv::Ptr<CvMat> JtJW;
-    double prevErrNorm, errNorm;
+    float prevErrNorm, errNorm;
     int lambdaLg10;
     CvTermCriteria criteria;
     int state;
@@ -448,17 +448,17 @@ enum
 CV_EXPORTS_AS(findHomographyAndOutliers) Mat findHomography( const Mat& srcPoints,
                                const Mat& dstPoints,
                                vector<uchar>& mask, int method=0,
-                               double ransacReprojThreshold=3 );
+                               float ransacReprojThreshold=3 );
 
 //! computes the best-fit perspective transformation mapping srcPoints to dstPoints.
 CV_EXPORTS_W Mat findHomography( const Mat& srcPoints,
                                const Mat& dstPoints,
-                               int method=0, double ransacReprojThreshold=3 );
+                               int method=0, float ransacReprojThreshold=3 );
 
 //! computes the best-fit affine transformation that maps one 3D point set to another (RANSAC algorithm is used)
 CV_EXPORTS int estimateAffine3D(const Mat& from, const Mat& to, CV_OUT Mat& dst,
                                 CV_OUT vector<uchar>& outliers,
-                                double param1 = 3.0, double param2 = 0.99);    
+                                float param1 = 3.0, float param2 = 0.99);    
     
 //! Computes RQ decomposition of 3x3 matrix
 CV_EXPORTS void RQDecomp3x3( const Mat& M, Mat& R, Mat& Q );
@@ -509,7 +509,7 @@ CV_EXPORTS_AS(projectPointsJ) void projectPoints( const Mat& objectPoints,
                                CV_OUT vector<Point2f>& imagePoints,
                                CV_OUT Mat& dpdrot, CV_OUT Mat& dpdt, CV_OUT Mat& dpdf,
                                CV_OUT Mat& dpdc, CV_OUT Mat& dpddist,
-                               double aspectRatio=0 );
+                               float aspectRatio=0 );
 
 //! computes the camera pose from a few 3D points and the corresponding projections. The outliers are not handled.
 CV_EXPORTS_W void solvePnP( const Mat& objectPoints,
@@ -522,7 +522,7 @@ CV_EXPORTS_W void solvePnP( const Mat& objectPoints,
 //! initializes camera matrix from a few 3D points and the corresponding projections.
 CV_EXPORTS_W Mat initCameraMatrix2D( const vector<vector<Point3f> >& objectPoints,
                                    const vector<vector<Point2f> >& imagePoints,
-                                   Size imageSize, double aspectRatio=1. );
+                                   Size imageSize, float aspectRatio=1. );
 
 
 enum { CALIB_CB_ADAPTIVE_THRESH = 1, CALIB_CB_NORMALIZE_IMAGE = 2,
@@ -565,7 +565,7 @@ enum
 };
 
 //! finds intrinsic and extrinsic camera parameters from several fews of a known calibration pattern.
-CV_EXPORTS_W double calibrateCamera( const vector<vector<Point3f> >& objectPoints,
+CV_EXPORTS_W float calibrateCamera( const vector<vector<Point3f> >& objectPoints,
                                      const vector<vector<Point2f> >& imagePoints,
                                      Size imageSize,
                                      CV_IN_OUT Mat& cameraMatrix,
@@ -576,16 +576,16 @@ CV_EXPORTS_W double calibrateCamera( const vector<vector<Point3f> >& objectPoint
 //! computes several useful camera characteristics from the camera matrix, camera frame resolution and the physical sensor size.
 CV_EXPORTS_W void calibrationMatrixValues( const Mat& cameraMatrix,
                                 Size imageSize,
-                                double apertureWidth,
-                                double apertureHeight,
-                                CV_OUT double& fovx,
-                                CV_OUT double& fovy,
-                                CV_OUT double& focalLength,
+                                float apertureWidth,
+                                float apertureHeight,
+                                CV_OUT float& fovx,
+                                CV_OUT float& fovy,
+                                CV_OUT float& focalLength,
                                 CV_OUT Point2d& principalPoint,
-                                CV_OUT double& aspectRatio );
+                                CV_OUT float& aspectRatio );
 
 //! finds intrinsic and extrinsic parameters of a stereo camera
-CV_EXPORTS_W double stereoCalibrate( const vector<vector<Point3f> >& objectPoints,
+CV_EXPORTS_W float stereoCalibrate( const vector<vector<Point3f> >& objectPoints,
                                      const vector<vector<Point2f> >& imagePoints1,
                                      const vector<vector<Point2f> >& imagePoints2,
                                      CV_IN_OUT Mat& cameraMatrix1, CV_IN_OUT Mat& distCoeffs1,
@@ -611,7 +611,7 @@ CV_EXPORTS_W void stereoRectify( const Mat& cameraMatrix1, const Mat& distCoeffs
                                  Size imageSize, const Mat& R, const Mat& T,
                                  CV_OUT Mat& R1, CV_OUT Mat& R2,
                                  CV_OUT Mat& P1, CV_OUT Mat& P2, CV_OUT Mat& Q,
-                                 double alpha, Size newImageSize=Size(),
+                                 float alpha, Size newImageSize=Size(),
                                  CV_OUT Rect* validPixROI1=0, CV_OUT Rect* validPixROI2=0,
                                  int flags=CALIB_ZERO_DISPARITY );
 
@@ -619,7 +619,7 @@ CV_EXPORTS_W void stereoRectify( const Mat& cameraMatrix1, const Mat& distCoeffs
 CV_EXPORTS_W bool stereoRectifyUncalibrated( const Mat& points1, const Mat& points2,
                                              const Mat& F, Size imgSize,
                                              CV_OUT Mat& H1, CV_OUT Mat& H2,
-                                             double threshold=5 );
+                                             float threshold=5 );
 
 //! computes the rectification transformations for 3-head camera, where all the heads are on the same line.
 CV_EXPORTS_W float rectify3Collinear( const Mat& cameraMatrix1, const Mat& distCoeffs1,
@@ -631,12 +631,12 @@ CV_EXPORTS_W float rectify3Collinear( const Mat& cameraMatrix1, const Mat& distC
                                       const Mat& R13, const Mat& T13,
                                       CV_OUT Mat& R1, CV_OUT Mat& R2, CV_OUT Mat& R3,
                                       CV_OUT Mat& P1, CV_OUT Mat& P2, CV_OUT Mat& P3, CV_OUT Mat& Q,
-                                      double alpha, Size newImgSize,
+                                      float alpha, Size newImgSize,
                                       CV_OUT Rect* roi1, CV_OUT Rect* roi2, int flags );
     
 //! returns the optimal new camera matrix
 CV_EXPORTS_W Mat getOptimalNewCameraMatrix( const Mat& cameraMatrix, const Mat& distCoeffs,
-                                            Size imageSize, double alpha, Size newImgSize=Size(),
+                                            Size imageSize, float alpha, Size newImgSize=Size(),
                                             CV_OUT Rect* validPixROI=0);
 
 //! converts point coordinates from normal pixel coordinates to homogeneous coordinates ((x,y)->(x,y,1))
@@ -656,12 +656,12 @@ enum
 //! finds fundamental matrix from a set of corresponding 2D points
 CV_EXPORTS Mat findFundamentalMat( const Mat& points1, const Mat& points2,
                                      CV_OUT vector<uchar>& mask, int method=FM_RANSAC,
-                                     double param1=3., double param2=0.99 );
+                                     float param1=3., float param2=0.99 );
 
 //! finds fundamental matrix from a set of corresponding 2D points
 CV_EXPORTS_W Mat findFundamentalMat( const Mat& points1, const Mat& points2,
                                      int method=FM_RANSAC,
-                                     double param1=3., double param2=0.99 );
+                                     float param1=3., float param2=0.99 );
 
 //! finds coordinates of epipolar lines corresponding the specified points
 CV_EXPORTS void computeCorrespondEpilines( const Mat& points1,
@@ -737,7 +737,7 @@ protected:
 };
 
 //! filters off speckles (small regions of incorrectly computed disparity)
-CV_EXPORTS_W void filterSpeckles( Mat& img, double newVal, int maxSpeckleSize, double maxDiff, Mat& buf );
+CV_EXPORTS_W void filterSpeckles( Mat& img, float newVal, int maxSpeckleSize, float maxDiff, Mat& buf );
 
 //! computes valid disparity ROI from the valid ROIs of the rectified images (that are returned by cv::stereoRectify())
 CV_EXPORTS_W Rect getValidDisparityROI( Rect roi1, Rect roi2,

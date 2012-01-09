@@ -9,7 +9,7 @@
 #import "TiBase.h"
 #import "TiHost.h"
 #import "TiUtils.h"
-#import "Ti3DMatrix.h"
+#import "TiUIiOS3DMatrix.h"
 
 @implementation ComArmarkertiModule
 
@@ -89,20 +89,4 @@
 
 #pragma Public APIs
 
--(id)example:(id)args
-{
-	// example method
-	return @"hello world";
-}
-
--(id)exampleProp
-{
-	// example property getter
-	return @"hello world";
-}
-
--(void)exampleProp:(id)value
-{
-	// example property setter
-}
 @end

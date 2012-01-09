@@ -3,7 +3,7 @@
 //  tiarmarker
 //
 //  Created by KATAOKA,Atsushi on 11/02/18.
-//  Copyright 2011 Langrise Co.,Ltd. All rights reserved.
+//  Copyright 2011 MARSHMALLOW MACHINE. All rights reserved.
 //
 
 #import "TiUIView.h"
@@ -16,13 +16,9 @@
 #else
 @interface ComArmarkertiCameraView : TiUIView {
 #endif
-	BOOL debug;
+    id session;
+	id previewLayer;
 	ComArmarkertiDetector *detector;
-	CGImageRef image;
-	id overlay;
-	KrollCallback *detected_handler;
 }
-	
-@property (nonatomic, retain) id session;
 
 @end

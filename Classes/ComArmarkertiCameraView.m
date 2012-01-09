@@ -3,32 +3,22 @@
 //  tiarmarker
 //
 //  Created by KATAOKA,Atsushi on 11/02/18.
-//  Copyright 2011 Langrise Co.,Ltd. All rights reserved.
+//  Copyright 2011 MARSHMALLOW MACHINE. All rights reserved.
 //
 
 #include <sys/types.h>
 #include <sys/sysctl.h>
-
+#import "opencv/cv.h"
 #import "ComArmarkertiCameraView.h"
 #import "TiUtils.h"
-#import "Ti3DMatrix.h"
-#import "opencv/cv.h"
 
 @implementation ComArmarkertiCameraView
-@synthesize session;
 
-- (void)setDebug_:(id)value 
-{
-	debug = [value boolValue];
-}
+#define IPHONE_CAMERA_FOCALLENGTH   (3.85f)
+#define IPHONE_CAMERA_FX            (4.536f)
+#define IPHONE_CAMERA_FY            (3.416f)
 
-- (void)setDetected_:(id)value
-{
-	RELEASE_TO_NIL(detected_handler);
-	detected_handler = [value retain];
-}
-
-- (NSString *) platform
+- (NSString *)platform
 {
 	size_t size;
 	sysctlbyname("hw.machine", NULL, &size, NULL, 0);
@@ -36,11 +26,13 @@
 	sysctlbyname("hw.machine", machine, &size, NULL, 0);
 	/*
 	 Possible values:
-	 "iPhone1,1" = iPhone 1G
+	 "iPhone1,1" = iPhone 1G        NOT SUPPORTED
 	 "iPhone1,2" = iPhone 3G
 	 "iPhone2,1" = iPhone 3GS
-	 "iPod1,1"   = iPod touch 1G
-	 "iPod2,1"   = iPod touch 2G
+     "iPhone3,1" = iPhone 4
+	 "iPod1,1"   = iPod touch 1G    NOT SUPPORTED
+	 "iPod2,1"   = iPod touch 2G    NOT SUPPORTED
+     "iPod3,1"   = iPod touch 3G
 	 */
 	NSString *platform = [NSString stringWithCString:machine encoding:NSUTF8StringEncoding];
 	
@@ -54,7 +46,7 @@
 	NSError *error = nil;
 		
 	// Create the session
-	AVCaptureSession *_session = [[AVCaptureSession alloc] init];
+	AVCaptureSession *_session  = [[AVCaptureSession alloc] init];
 		
 	// Configure the session to produce lower resolution video frames, if your 
 	// processing algorithm can cope. We'll specify medium quality for the
@@ -62,21 +54,32 @@
 	_session.sessionPreset = AVCaptureSessionPresetMedium;
 		
 	// Find a suitable AVCaptureDevice
-	AVCaptureDevice *device = [AVCaptureDevice
-							   defaultDeviceWithMediaType:AVMediaTypeVideo];
+	AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
 		
 	// Create a device input with the device and add it to the session.
 	AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:device 
-																			error:&error];
+                                                                        error:&error];
 	if (!input) {
-		// Handling the error appropriately.
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Input device"
+                                                        message:@"Failure to create input device."
+                                                       delegate:nil
+                                              cancelButtonTitle:nil
+                                              otherButtonTitles:@"OK", nil];
+        [alert show];
 	}
 	[_session addInput:input];
 		
 	// Create a VideoDataOutput and add it to the session
 	AVCaptureVideoDataOutput *output = [[[AVCaptureVideoDataOutput alloc] init] autorelease];
 	[_session addOutput:output];
-		
+    
+	// Create preview layer.
+	previewLayer = [AVCaptureVideoPreviewLayer layerWithSession:_session];
+    [previewLayer setFrame:self.bounds];
+	[previewLayer setVideoGravity:AVLayerVideoGravityResize];
+    [previewLayer setZPosition:-1000000.0];
+	[[self layer] insertSublayer:previewLayer atIndex:0];
+
 	// Configure your output.
 	dispatch_queue_t queue = dispatch_queue_create("myQueue", NULL);
 	[output setSampleBufferDelegate:self queue:queue];
@@ -86,16 +89,15 @@
 	output.videoSettings = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:kCVPixelFormatType_32BGRA] 
 													   forKey:(id)kCVPixelBufferPixelFormatTypeKey];
 		
-		
 	// If you wish to cap the frame rate to a known value, such as 15 fps, set 
 	// minFrameDuration.
 	output.minFrameDuration = CMTimeMake(1, 15);
 	
 	// Start the session running to start the flow of data
 	[_session startRunning];
-		
-	// Assign session to an ivar.
-	[self setSession:_session];
+    
+    // Assign session to an ivar.
+    session = _session;
 #else
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Not supported"
                                                     message:@"only works on device."
@@ -114,67 +116,66 @@
 #endif
 }
 
-- (CGImageRef)CGImageRotatedByAngle:(CGImageRef)imgRef angle:(CGFloat)angle
-{
-    CGFloat angleInRadians = angle * (M_PI / 180);
-    CGFloat width = CGImageGetWidth(imgRef);
-    CGFloat height = CGImageGetHeight(imgRef);
-    
-    CGRect imgRect = CGRectMake(0, 0, width, height);
-    CGAffineTransform transform = CGAffineTransformMakeRotation(angleInRadians);
-    CGRect rotatedRect = CGRectApplyAffineTransform(imgRect, transform);
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-    CGContextRef bmContext = CGBitmapContextCreate(NULL,
-                                                   rotatedRect.size.width,
-                                                   rotatedRect.size.height,
-                                                   8,
-                                                   0,
-                                                   colorSpace,
-                                                   kCGImageAlphaPremultipliedFirst);
-    CGContextSetInterpolationQuality(bmContext, kCGInterpolationNone);
-    CGColorSpaceRelease(colorSpace);
-    
-    CGContextTranslateCTM(bmContext,
-                          +(rotatedRect.size.width/2),
-                          +(rotatedRect.size.height/2));
-    CGContextRotateCTM(bmContext, angleInRadians);
-    CGContextTranslateCTM(bmContext,
-                          -(rotatedRect.size.height/2),
-                          -(rotatedRect.size.width/2));
-    
-    CGContextDrawImage(bmContext, 
-                       CGRectMake(0, 0,
-                                  rotatedRect.size.height,
-                                  rotatedRect.size.width),
-                       imgRef);
-    
-    CGImageRef rotatedImage = CGBitmapContextCreateImage(bmContext);
-    CGContextRelease(bmContext);
-    
-    return rotatedImage;
-}
-
 - (void)addSubview:(UIView *)view
 {
     [super addSubview:view];
     view.layer.anchorPoint = CGPointMake(0.5f, 0.5f);
 }
 
-- (void)updateImage:(CGImageRef)rawImage
-{	
-	UIGraphicsBeginImageContext(CGSizeMake(self.bounds.size.height, self.bounds.size.width));
-	
-	[[UIImage imageWithCGImage:rawImage] drawInRect:CGRectMake(0, 0, self.bounds.size.height, self.bounds.size.width)];
-	
-	CGImageRef current = [UIGraphicsGetImageFromCurrentImageContext() CGImage];
-	UIGraphicsEndImageContext();
-	
-	// Create a Quartz image from the pixel data in the bitmap graphics context
-	if(image)
-	{
-		CGImageRelease(image);
-	}
-	image = [self CGImageRotatedByAngle:current angle:-90];
+- (CvMat *)createProjectionZ:(CGFloat)z 
+              andFocalLength:(CGPoint)focalLength 
+                   andCenter:(CGPoint)center;
+{
+    CvMat *projection = cvCreateMat(4, 4, CV_32FC1);
+    
+    for(int i = 0; i < 4 * 4; i++)
+    {
+        projection->data.fl[i] = 0.0;
+    }
+    projection->data.fl[0]  = focalLength.x/z;
+    projection->data.fl[2]  = center.x/z;
+    projection->data.fl[5]  = focalLength.y/z;
+    projection->data.fl[6]  = center.y/z;
+    projection->data.fl[8]  = 1.0;
+    projection->data.fl[14] = 1/z;
+    
+    return projection;
+}
+
+- (CvMat *)createMatrixRotationX:(float)rx Y:(float)ry Z:(float)rz
+                 andTranslationX:(float)tx Y:(float)ty Z:(float)tz
+{
+    CvMat *matrix = cvCreateMat(4, 4, CV_32FC1);
+    
+    CvMat *rvec = cvCreateMat(1, 3, CV_32FC1);    
+    CvMat *rotation = cvCreateMat(3, 3, CV_32FC1);    
+    
+    rvec->data.fl[0] = rx;
+    rvec->data.fl[1] = ry;
+    rvec->data.fl[2] = rz;
+    
+    cvRodrigues2(rvec, rotation, NULL);
+    
+    for(int i = 0; i < 3; i++)
+    {
+        for(int j = 0; j < 3; j++)
+        {
+            matrix->data.fl[i * 4 + j] = rotation->data.fl[i * 3 + j];
+        }
+    }
+    matrix->data.fl[3]  = tx;
+    matrix->data.fl[7]  = ty;
+    matrix->data.fl[11] = tz;
+    
+    matrix->data.fl[12] = 0.0f;
+    matrix->data.fl[13] = 0.0f;
+    matrix->data.fl[14] = 0.0f;
+    matrix->data.fl[15] = 1.0f;
+    
+    cvReleaseMat(&rotation);
+    cvReleaseMat(&rvec);
+    
+    return matrix;
 }
 
 #if !TARGET_IPHONE_SIMULATOR
@@ -207,86 +208,90 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 	{
 		baseAddress = CVPixelBufferGetBaseAddress(imageBuffer); 
 	}
-	
-    // Create a device-dependent RGB color space
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB(); 
-	
-    // Create a bitmap graphics context with the sample buffer data
-    CGContextRef context = CGBitmapContextCreate(baseAddress, 
-												 width, 
-												 height, 
-												 8, 
-												 bytesPerRow, 
-												 colorSpace, 
-												 kCGBitmapByteOrder32Little | kCGImageAlphaNoneSkipFirst); 
-	CGImageRef temp = CGBitmapContextCreateImage(context);
+
+	if(detector == nil){
+        detector = [[ComArmarkertiDetector alloc] initWithCGSize:CGSizeMake(width, height)
+                                                  andFocalLength:IPHONE_CAMERA_FOCALLENGTH 
+                                                           andFx:IPHONE_CAMERA_FX 
+                                                           andFy:IPHONE_CAMERA_FY];    
+    }
+    
+    NSArray *found = [detector detect:baseAddress];
 
 	// Unlock the pixel buffer
     CVPixelBufferUnlockBaseAddress(imageBuffer, 0);
-	
-	// Update captured image.(UIGraphicsBeginImageContext not thread safe?)
-	[self performSelectorOnMainThread:@selector(updateImage:) 
-						   withObject:temp 
-						waitUntilDone:YES];
    
-	if (detector && detected_handler) 
+	if (detector) 
 	{
 		NSMutableDictionary *args = [[NSMutableDictionary alloc] init];
-		NSMutableArray *markers = [[NSMutableArray alloc] init];
+        NSMutableArray *markers = [[NSMutableArray alloc] init];
 		@synchronized(self)
 		{
-			for(Marker *marker in [detector detectWithinCGImageRef:image])
+            for(Marker *marker in found)
 			{
-				NSMutableDictionary *marker_dic = [[NSMutableDictionary alloc] init];
-                              
-                // code
-                [marker_dic setValue:NUMINT(marker.code) forKey:@"code"];
+                NSMutableDictionary *marker_dic = [[NSMutableDictionary alloc] init];
 
-                // moment
-				[marker_dic setValue:[[[TiPoint alloc] initWithPoint:marker.moment] autorelease] forKey:@"moment"];
+                [marker_dic setValue:NUMINT(marker.code) forKey:@"code"];                
                 
-                // transform
+                CvMat *transform = [self createMatrixRotationX:[marker rotation_x]
+                                                             Y:[marker rotation_y] 
+                                                             Z:[marker rotation_z] 
+                                               andTranslationX:[marker translation_x]
+                                                             Y:[marker translation_y]
+                                                             Z:[marker translation_z]];
+                CvMat *localworld = [self createMatrixRotationX:0.0
+                                                              Y:0.0
+                                                              Z:M_PI/2
+                                                andTranslationX:0.0
+                                                              Y:0.0
+                                                              Z:0.0];            
+                CGSize sz = self.bounds.size;
+                CvMat *projection = [self createProjectionZ:[marker translation_z] 
+                                             andFocalLength:CGPointMake(sz.width *IPHONE_CAMERA_FOCALLENGTH/IPHONE_CAMERA_FY, 
+                                                                        sz.height*IPHONE_CAMERA_FOCALLENGTH/IPHONE_CAMERA_FX) 
+                                                  andCenter:CGPointMake(sz.width/2, sz.height/2)];
+                cvMatMul(localworld, transform, transform);
+                cvMatMul(projection, transform, transform);
+                
+                cvTranspose(transform, transform);
+                
                 NSDictionary *marker_transform = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                                  NUMFLOAT(marker.transform->data.fl[0]), @"m11",
-                                                  NUMFLOAT(marker.transform->data.fl[1]), @"m12",
-                                                  NUMFLOAT(marker.transform->data.fl[2]), @"m13",
-                                                  NUMFLOAT(marker.transform->data.fl[3]), @"m14",
-                                                  NUMFLOAT(marker.transform->data.fl[4]), @"m21",
-                                                  NUMFLOAT(marker.transform->data.fl[5]), @"m22",
-                                                  NUMFLOAT(marker.transform->data.fl[6]), @"m23",
-                                                  NUMFLOAT(marker.transform->data.fl[7]), @"m24",
-                                                  NUMFLOAT(marker.transform->data.fl[8]), @"m31",
-                                                  NUMFLOAT(marker.transform->data.fl[9]), @"m32",
-                                                  NUMFLOAT(marker.transform->data.fl[10]),@"m33",
-                                                  NUMFLOAT(marker.transform->data.fl[11]),@"m34",
-                                                  NUMFLOAT(marker.transform->data.fl[12]),@"m41",
-                                                  NUMFLOAT(marker.transform->data.fl[13]),@"m42",
-                                                  NUMFLOAT(marker.transform->data.fl[14]),@"m43",
-                                                  NUMFLOAT(marker.transform->data.fl[15]),@"m44",nil];
-
+                                                  NUMFLOAT(transform->data.fl[0]),  @"m11",
+                                                  NUMFLOAT(transform->data.fl[1]),  @"m12",
+                                                  NUMFLOAT(transform->data.fl[2]),  @"m13",
+                                                  NUMFLOAT(transform->data.fl[3]),  @"m14",
+                                                  NUMFLOAT(transform->data.fl[4]),  @"m21",
+                                                  NUMFLOAT(transform->data.fl[5]),  @"m22",
+                                                  NUMFLOAT(transform->data.fl[6]),  @"m23",
+                                                  NUMFLOAT(transform->data.fl[7]),  @"m24",
+                                                  NUMFLOAT(transform->data.fl[8]),  @"m31",
+                                                  NUMFLOAT(transform->data.fl[9]),  @"m32",
+                                                  NUMFLOAT(transform->data.fl[10]), @"m33",
+                                                  NUMFLOAT(transform->data.fl[11]), @"m34",
+                                                  NUMFLOAT(transform->data.fl[12]), @"m41",
+                                                  NUMFLOAT(transform->data.fl[13]), @"m42",
+                                                  NUMFLOAT(transform->data.fl[14]), @"m43",
+                                                  NUMFLOAT(transform->data.fl[15]), @"m44",nil];
+                
                 [marker_dic setValue:marker_transform forKey:@"transform"];
                 [marker_transform release];
-
-				[markers addObject:marker_dic];
-				[marker_dic release];
+                
+                cvReleaseMat(&transform);
+                cvReleaseMat(&localworld);
+                cvReleaseMat(&projection);
+                
+                [markers addObject:marker_dic];
+                [marker_dic release];
 			}
 		}
-		[args setValue:markers forKey:@"markers"];
-		[self.proxy _fireEventToListener:@"detected" 
-							  withObject:args 
-								listener:detected_handler 
-							  thisObject:nil];
+		
+        [args setValue:markers forKey:@"markers"];
+		[self.proxy fireEvent:@"detected" withObject:args];
+        
 		[markers release];
 		[args release];
 	}
 
-	[self performSelectorOnMainThread:@selector(setNeedsDisplay) 
-						   withObject:nil 
-						waitUntilDone:YES];
-
-    CGImageRelease(temp);
-	CGContextRelease(context); 
-    CGColorSpaceRelease(colorSpace);
 	if ([[self platform] isEqualToString:@"iPhone1,2"])
 	{
 		free(baseAddress);
@@ -294,45 +299,12 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 }
 #endif
 
-- (void)drawRect:(CGRect)rect
-{
-	if(!image)
-	{
-		return;
-	}
-        
-	CGContextRef context = UIGraphicsGetCurrentContext();
-    CGRect imageRect = CGRectMake(0, 0, CGImageGetWidth(image), CGImageGetHeight(image));
-
-	CGContextSetInterpolationQuality(context, kCGInterpolationNone);
-        
-    CGContextTranslateCTM(context, 0, CGImageGetHeight(image));
-    CGContextScaleCTM(context, 1, -1);
-		
-    CGContextDrawImage(context, imageRect, image);
-	if(debug)
-	{
-		[detector drawDetectedImage:context rect:imageRect];		
-	}
-	
-	[super drawRect:rect];
-}
-
--(void)frameSizeChanged:(CGRect)frame bounds:(CGRect)bounds 
-{
-	[super frameSizeChanged:frame bounds:bounds];
-    RELEASE_TO_NIL(detector);
-    detector = [[ComArmarkertiDetector alloc] initWithCGSize:bounds.size];    
-}
-
 -(void)dealloc 
 {
 	[self stopCapture];	
-	CGImageRelease(image);
-	
-	RELEASE_TO_NIL(overlay);
+
+    RELEASE_TO_NIL(session);
 	RELEASE_TO_NIL(detector);
-	RELEASE_TO_NIL(detected_handler);
 	
     [super dealloc];
 }
